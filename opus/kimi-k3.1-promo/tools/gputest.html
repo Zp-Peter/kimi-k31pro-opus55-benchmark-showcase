@@ -1,0 +1,17 @@
+<!doctype html><html><body style="margin:0;background:#000">
+<canvas id=c width=1920 height=1080></canvas>
+<script type=importmap>{"imports":{"three":"/node_modules/three/build/three.module.js"}}</script>
+<script type=module>
+import * as THREE from 'three';
+const c=document.getElementById('c');
+const r=new THREE.WebGLRenderer({canvas:c,antialias:true,preserveDrawingBuffer:true});
+r.setSize(1920,1080,false);
+const gl=r.getContext(); const ext=gl.getExtension('WEBGL_debug_renderer_info');
+window.info={renderer: ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER), vendor: ext?gl.getParameter(ext.UNMASKED_VENDOR_WEBGL):'', webgl2: r.capabilities.isWebGL2, floatRT: !!gl.getExtension('EXT_color_buffer_float')};
+const s=new THREE.Scene(); const cam=new THREE.PerspectiveCamera(50,16/9,0.1,100); cam.position.z=5;
+const g=new THREE.BufferGeometry(); const N=200000; const a=new Float32Array(N*3); for(let i=0;i<N*3;i++)a[i]=(Math.random()-.5)*10; g.setAttribute('position',new THREE.BufferAttribute(a,3));
+s.add(new THREE.Points(g,new THREE.PointsMaterial({size:0.02,color:0x66aaff})));
+const k=new THREE.Mesh(new THREE.TorusKnotGeometry(1,0.3,400,64),new THREE.MeshStandardMaterial({color:0xffffff,metalness:.5,roughness:.3})); s.add(k); s.add(new THREE.PointLight(0xffffff,50)); s.add(new THREE.AmbientLight(0x404040));
+window.renderAt=(t)=>{ k.rotation.set(t,t*0.7,0); const t0=performance.now(); for(let i=0;i<8;i++) r.render(s,cam); gl.finish(); return performance.now()-t0; };
+window.ready=true;
+</script></body></html>

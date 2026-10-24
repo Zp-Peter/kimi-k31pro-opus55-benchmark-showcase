@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#172b2e" />
+  <meta name="description" content="界刃——四队双人、建造换区、第一人称三渲二近战竞技游戏。你筑起的墙，将成为对手的起点。" />
+  <title>界刃 · 四象演武</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='8' fill='%23172b2e'/%3E%3Cpath d='M13 10h22v28H13z' fill='none' stroke='%23e7d9b8' stroke-width='3'/%3E%3Cpath d='m17 31 15-16M15 16l18 18' stroke='%23ed6651' stroke-width='3'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/blade/style.css" />
+</head>
+<body>
+  <main id="game" aria-label="界刃三维第一人称近战游戏">
+    <div id="scene" aria-label="三渲二四象演武场"></div>
+    <div class="scene-vignette" aria-hidden="true"></div>
+    <div class="paper-grain" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"><i></i><i></i></span><span class="brand-name">界刃<small>REALM / BLADE</small></span></div>
+      <div id="top-location" class="top-location"><i></i><span>四象演武场</span><small>营造 · 换境 · 近战</small></div>
+      <div class="top-actions">
+        <button id="help-button" class="round-button" type="button" aria-label="操作说明" title="操作说明（H）">?</button>
+        <button id="sound-button" class="round-button" type="button" aria-label="切换声音" title="声音（M）">
+          <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4Z"/><path d="M15 9a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12"/></svg>
+          <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4Z"/><path d="m16 9 5 6m0-6-5 6"/></svg>
+        </button>
+        <button id="fullscreen-button" class="round-button" type="button" aria-label="全屏" title="全屏"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+        <button id="pause-button" class="round-button game-only" type="button" aria-label="暂停" title="暂停（Esc）"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v12m8-12v12"/></svg></button>
+      </div>
+    </header>
+
+    <section id="start-screen" class="start-screen is-visible" aria-labelledby="game-title">
+      <div class="start-layout">
+        <div class="hero-panel">
+          <div class="chapter-label"><span>四象演武 / 01</span><i></i><small>单人 + 7 AI</small></div>
+          <h1 id="game-title">界<span>刃</span><b>REALM<br/>BLADE</b></h1>
+          <p class="hero-tagline">你筑起的墙，<br />将成为<span>对手的起点。</span></p>
+          <p class="hero-description">四支双人队伍，四块未知阵地。先营造，再换境；<br />用一把近战武器，在别人的布局里活到最后。</p>
+          <div class="mode-select" role="group" aria-label="比赛模式">
+            <button class="mode-card active" data-mode="quick" type="button">
+              <span class="mode-index">01 / QUICK</span><strong>快速演武</strong><small>开局营造一次 · 快速决胜</small>
+              <label>目标分数 <input id="quick-target" type="number" min="1" max="20" value="5" aria-label="快速模式目标分数" /></label>
+            </button>
+            <button class="mode-card" data-mode="long" type="button">
+              <span class="mode-index">02 / LONG</span><strong>长局征伐</strong><small>首队 5 分后 · 中场重建一次</small>
+              <label>目标分数 <input id="long-target" type="number" min="2" max="20" value="10" aria-label="长局模式目标分数" /></label>
+            </button>
+          </div>
+          <button id="start-button" class="primary-button" type="button"><span>入场 · 开始营造</span><i>→</i></button>
+          <div class="start-footnote"><i></i> REALTIME 3D <span>·</span> TOON / INK <span>·</span> 建议佩戴耳机</div>
+        </div>
+        <aside class="protocol-panel">
+          <div class="protocol-heading"><span>演武协议</span><small>MATCH PROTOCOL</small></div>
+          <ol>
+            <li><b>壹</b><div><strong>前往本队区域营造</strong><p>用独立预算摆放掩体。中央十字通道与出生点始终受到保护。</p></div></li>
+            <li><b>贰</b><div><strong>随机换到别人的区域</strong><p>每回合四队一一换区，绝不会出生在本队当前营造的区域。</p></div></li>
+            <li><b>叁</b><div><strong>最后存活的队伍得分</strong><p>两名队员都阵亡才出局。死亡后可观战，AI 会继续完成比赛。</p></div></li>
+          </ol>
+          <div class="protocol-rule"><span>75 秒回合</span><span>35 秒全图揭示</span><span>无友军伤害</span></div>
+          <div class="control-primer"><span><kbd>WASD</kbd> 移动</span><span><kbd>鼠标</kbd> 观察</span><span><kbd>左键</kbd> 攻击</span><span><kbd>右键</kbd> 格挡</span><span><kbd>Space</kbd> 闪避</span><span><kbd>B</kbd> 营造 / 商店</span></div>
+        </aside>
+      </div>
+      <div class="start-side-text" aria-hidden="true">筑造者不知执刃人 · 执刃人不知筑造者</div>
+    </section>
+
+    <section id="hud" class="hud" aria-label="比赛信息">
+      <div id="team-scores" class="team-scores"></div>
+      <div class="phase-panel"><small id="phase-kicker">ROUND 01</small><strong id="phase-timer">02:00</strong><span id="phase-label">营造阶段</span><em id="phase-subtitle">前往你的区域</em></div>
+      <aside class="minimap-panel" aria-label="区域地图">
+        <div class="minimap-heading"><span>四象图</span><small id="map-mode-label">营造归属</small></div>
+        <canvas id="minimap" width="220" height="220"></canvas>
+        <div class="minimap-legend"><span><i class="you-dot"></i>你</span><span><i class="mate-dot"></i>队友</span><b>N ↑</b></div>
+      </aside>
+      <div id="zone-marker" class="zone-marker"><small>本队营造</small><strong>A 区</strong><span>24m</span><i>▼</i></div>
+      <div id="reveal-banner" class="reveal-banner">终局揭示 · 敌人位置已公开</div>
+      <div id="crosshair" class="crosshair" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></div>
+      <div id="hit-marker" class="hit-marker" aria-hidden="true">×</div>
+      <div id="interaction-tip" class="interaction-tip"></div>
+      <div id="kill-feed" class="kill-feed" aria-live="polite"></div>
+
+      <div class="vitals-panel">
+        <div class="player-seal">朱</div>
+        <div class="vitals-content"><div class="vital-heading"><span>生命 / HP</span><strong id="health-number">100</strong></div><div class="health-track"><i id="health-fill"></i></div><div class="stamina-row"><span>架势</span><div><i id="stamina-fill"></i></div><small id="dodge-label">SPACE 闪避</small></div></div>
+      </div>
+      <div id="teammate-panel" class="teammate-panel"><span class="mate-avatar">满</span><div><small>AI 队友</small><strong id="teammate-name">小满</strong><div class="mate-health"><i id="teammate-health"></i></div></div><b id="teammate-state">存活</b></div>
+      <div class="weapon-panel"><div class="weapon-top"><span id="weapon-type">基础武器</span><small id="money-label">$ 900</small></div><strong id="weapon-name">无名短刃</strong><div class="weapon-meta"><span id="weapon-damage">伤害 22</span><span id="weapon-range">距离 2.0m</span></div><div id="combat-hint" class="weapon-hint"><kbd>左键</kbd> 挥刃 <kbd>右键</kbd> 格挡 <kbd>B</kbd> 商店</div></div>
+
+      <div id="build-hud" class="build-hud">
+        <div class="build-budget"><span>营造预算<small>与武器资金独立</small></span><strong><b id="build-budget">100</b> / 100</strong><div><i id="build-budget-fill"></i></div></div>
+        <div class="build-zone"><small>本队负责</small><strong id="build-zone-name">A · 墨庭</strong><span id="build-status">先前往区域</span></div>
+        <div class="build-actions"><button id="open-build-button" type="button"><kbd>B</kbd> 构件清单</button><button id="ready-build-button" type="button"><kbd>F</kbd> 完成营造</button></div>
+      </div>
+      <div id="build-toolbar" class="build-toolbar"><span><kbd>1—4</kbd> 选构件</span><span><kbd>左键</kbd> 放置</span><span><kbd>R</kbd> 旋转</span><span><kbd>X / 右键</kbd> 删除退款</span></div>
+      <div id="spectator-panel" class="spectator-panel"><small>你已阵亡 / 观战中</small><strong id="spectator-name">队友 · 小满</strong><span><kbd>Space</kbd> 切换观战目标 · 队友仍可为本队获胜</span></div>
+    </section>
+
+    <section id="build-menu" class="modal-screen" aria-labelledby="build-menu-title">
+      <div class="menu-card build-menu-card">
+        <div class="menu-card-heading"><div><small>CONSTRUCTION / 独立预算</small><h2 id="build-menu-title">营造清单</h2></div><div class="menu-budget">剩余 <strong id="build-menu-budget">100</strong></div></div>
+        <p class="menu-note">只能编辑本队区域 · 距落点不超过 7.5 米 · 浅色十字通道和出生环不可占用</p>
+        <div id="build-options" class="build-options"></div>
+        <div class="menu-footer"><span>选择后回到第一人称视角 · 左键放置 / R 旋转 / X 删除</span><button id="close-build-button" class="secondary-button" type="button">返回布置 <kbd>B</kbd></button></div>
+      </div>
+    </section>
+
+    <section id="shop-screen" class="modal-screen" aria-labelledby="shop-title">
+      <div class="menu-card shop-card">
+        <div class="menu-card-heading"><div><small>PREPARATION / 回合购买</small><h2 id="shop-title">铸刃铺</h2></div><div class="shop-wallet">可用资金 <strong id="shop-money">$ 900</strong></div></div>
+        <div class="shop-subline"><span>仅准备阶段可购买 · 新购武器直接替换当前装备</span><span>存活保留武器 / 阵亡恢复短刃</span></div>
+        <div id="shop-options" class="shop-options"></div>
+        <div id="shop-feedback" class="shop-feedback">选择适合你的交战距离。</div>
+        <div class="menu-footer"><span id="shop-countdown">18 秒后开战</span><button id="close-shop-button" class="secondary-button" type="button">返回准备 <kbd>B</kbd></button><button id="ready-shop-button" class="primary-button compact" type="button"><span>完成购买 · 准备</span><i>→</i></button></div>
+      </div>
+    </section>
+
+    <section id="swap-screen" class="interstitial" aria-labelledby="swap-title">
+      <div class="swap-card">
+        <small>SPAWN ROTATION / 每回合随机</small><h2 id="swap-title">换境</h2><p>场地与建筑保持原位，交换的只是各队出生位置。</p>
+        <div class="swap-content"><div id="swap-map" class="swap-map"></div><div id="swap-list" class="swap-list"></div></div>
+        <div id="swap-player-result" class="swap-player-result">你营造 A 区 → 本回合出生 C 区</div>
+        <div class="swap-valid"><i>✓</i> 四队一一分配 · 所有队伍均避开本队营造区</div>
+      </div>
+    </section>
+
+    <section id="round-screen" class="modal-screen" aria-labelledby="round-title">
+      <div class="menu-card result-card"><small>ROUND COMPLETE</small><h2 id="round-title">回合结束</h2><p id="round-summary">朱队获得 1 分</p><div id="income-summary" class="income-summary"></div><div id="round-standings" class="standings"></div><button id="continue-round-button" class="primary-button compact" type="button"><span>继续</span><i>→</i></button><small id="round-auto-label" class="auto-label">5 秒后自动继续</small></div>
+    </section>
+
+    <section id="match-screen" class="modal-screen" aria-labelledby="match-title">
+      <div class="menu-card result-card match-result"><small>MATCH COMPLETE</small><div id="match-seal" class="result-seal">胜</div><h2 id="match-title">整场结算</h2><p id="match-summary"></p><div id="match-stats" class="match-stats"></div><div id="match-standings" class="standings"></div><button id="restart-button" class="primary-button compact" type="button"><span>原模式再来一局</span><i>↻</i></button><button id="menu-button" class="secondary-button" type="button">返回模式选择</button></div>
+    </section>
+
+    <section id="pause-screen" class="modal-screen" aria-labelledby="pause-title">
+      <div class="menu-card pause-card"><small>TAKE A BREATH</small><h2 id="pause-title">收刃片刻</h2><p>比赛、AI 与阶段计时均已暂停。</p><button id="resume-button" class="primary-button compact" type="button"><span>继续演武</span><i>→</i></button><button id="pause-help-button" class="secondary-button" type="button">查看操作</button><button id="restart-pause-button" class="text-button" type="button">放弃并重开本场</button><div class="pause-controls">WASD 移动 · Shift 疾跑 · Space 闪避<br />左键攻击 / 放置 · 右键格挡 / 删除 · B 菜单 · F 准备</div></div>
+    </section>
+
+    <section id="help-screen" class="modal-screen" aria-labelledby="help-title">
+      <div class="menu-card help-card"><div class="menu-card-heading"><div><small>FIELD MANUAL</small><h2 id="help-title">操作与规则</h2></div><button id="close-help-button" class="close-button" type="button" aria-label="关闭">×</button></div><div class="help-grid"><div><h3>第一人称</h3><p><kbd>W A S D</kbd> 移动　<kbd>鼠标</kbd> 观察<br /><kbd>Shift</kbd> 疾跑　<kbd>Space</kbd> 短闪避<br /><kbd>Esc</kbd> 暂停　<kbd>M</kbd> 声音</p></div><div><h3>近战</h3><p><kbd>左键</kbd> 攻击　<kbd>右键</kbd> 按住格挡<br />格挡仅保护正面并消耗架势；重斧破架更强。<br />攻击受距离、朝向和墙体遮挡约束。</p></div><div><h3>营造</h3><p>先走进本队区域，<kbd>B</kbd> 打开清单。<br /><kbd>1—4</kbd> 选择　<kbd>左键</kbd> 放置　<kbd>R</kbd> 旋转<br /><kbd>X / 右键</kbd> 删除并全额退款　<kbd>F</kbd> 准备</p></div><div><h3>回合</h3><p><kbd>B</kbd> 购买 / 关闭商店　<kbd>F</kbd> 提前准备。<br />35 秒后揭示所有敌人，75 秒仍未分胜负则平局。<br />玩家死亡后按 <kbd>Space</kbd> 切换观战。</p></div></div><div class="help-rule">核心：最后仍有队员存活的队伍得 1 分。每回合都随机换区，且不会进入本队当前营造区。</div></div>
+    </section>
+
+    <section id="control-gate" class="control-gate"><button id="control-button" type="button"><small><span id="gate-kicker">ROUND</span> <span id="gate-round">01</span></small><strong id="gate-title">点击拔刀开战</strong><span id="gate-subtitle">锁定鼠标 · 进入第一人称战斗</span></button></section>
+    <div id="phase-banner" class="phase-banner" aria-live="polite"><small></small><strong></strong><p></p></div>
+    <div id="damage-flash" class="damage-flash" aria-hidden="true"></div>
+    <div id="block-flash" class="block-flash" aria-hidden="true">格挡</div>
+    <div id="toast" class="toast" role="status"></div>
+    <div id="loading" class="loading-screen is-visible"><span class="loading-mark">界</span><h2>正在铺开四象演武场</h2><div><i></i></div><small>THREE.JS / TOON ARENA</small></div>
+    <div class="desktop-hint">建议使用桌面电脑与键鼠试玩</div>
+  </main>
+  <script type="module" src="/src/blade/main.js"></script>
+</body>
+</html>

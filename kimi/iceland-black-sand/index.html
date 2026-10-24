@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#151b1d" />
+  <meta name="description" content="以 Three.js 实时呈现冰岛 Reynisfjara 黑沙滩：火山黑沙、玄武岩、北大西洋海浪与低垂云雾。" />
+  <title>黑沙之境 · Reynisfjara</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23151c1e'/%3E%3Cpath d='M16 4 28 16 16 28 4 16Z' fill='none' stroke='%23e9ece6'/%3E%3Cpath d='m16 10 6 6-6 6-6-6Z' fill='none' stroke='%23e9ece6' opacity='.5'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/iceland/style.css" />
+</head>
+<body>
+  <main id="experience" aria-label="冰岛黑沙滩实时三维场景">
+    <div id="landscape"></div>
+    <div class="scene-shade" aria-hidden="true"></div>
+    <div class="film-grain" aria-hidden="true"></div>
+
+    <section id="loading" class="loading" aria-live="polite">
+      <div class="loading-top"><span>NORTH / 63°</span><span>REALTIME LANDSCAPE</span></div>
+      <div class="loading-center">
+        <span class="loading-coordinate">63.4029° N &nbsp; 19.0447° W</span>
+        <h2>黑沙之境</h2>
+        <p id="loading-status">正在抵达北大西洋</p>
+        <div class="loading-track"><i id="loading-progress"></i></div>
+        <span id="loading-percent">00</span>
+      </div>
+      <span class="loading-foot">REYNISFJARA · ICELAND</span>
+    </section>
+
+    <div class="interface">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="黑沙之境首页">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 16 16 30 3 16Z"/><path d="m16 8 8 8-8 8-8-8Z"/></svg>
+          <span>NORTH<small>63° / ICELAND</small></span>
+        </a>
+        <div class="location"><i></i><span>REYNISFJARA</span><small>冰岛 · 维克镇南岸</small></div>
+        <div class="top-actions">
+          <button id="about-button" class="text-button" type="button">自然手记 <span>↗</span></button>
+          <span class="action-divider"></span>
+          <button id="sound-button" class="icon-button" type="button" aria-label="开启海浪环境音" title="环境音">
+            <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4Z"/><path d="m16 9 5 6m0-6-5 6"/></svg>
+            <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4Z"/><path d="M15 9a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12"/></svg>
+          </button>
+          <button id="fullscreen-button" class="icon-button" type="button" aria-label="进入全屏" title="全屏">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="hero-copy" aria-labelledby="scene-title">
+        <div class="eyebrow"><span>63° NORTH</span><i></i><span>世界尽头系列 / 001</span></div>
+        <h1 id="scene-title">黑沙<span>之境</span></h1>
+        <div class="english-title">REYNISFJARA</div>
+        <p>风从北大西洋而来。<br />在火山与海洋之间，时间留下黑色的诗。</p>
+        <button id="explore-button" class="explore-button" type="button"><span>走近海岸</span><i>↗</i></button>
+      </section>
+
+      <div class="weather" aria-label="场景环境">
+        <div class="weather-icon" aria-hidden="true"><svg viewBox="0 0 42 42"><path d="M12 29h19a7 7 0 0 0 1-14 11 11 0 0 0-21 2 6 6 0 0 0 1 12Z"/><path d="M14 34h12m-8 4h12"/></svg></div>
+        <div><strong>6°</strong><span>阴 / 西南风 18 km/h</span></div>
+      </div>
+
+      <aside class="view-caption" aria-live="polite">
+        <span id="view-number">01 / 03</span>
+        <div><h2 id="view-title">海岸全景</h2><p id="view-description">黑沙、玄武岩与无尽的北大西洋</p></div>
+      </aside>
+
+      <div class="utility-rail" aria-label="场景工具">
+        <button id="pause-button" class="rail-button" type="button" aria-label="暂停场景动画" title="暂停 / 继续（空格）">
+          <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v12m8-12v12"/></svg>
+          <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 9 6-9 6Z"/></svg>
+        </button>
+        <button id="capture-button" class="rail-button" type="button" aria-label="保存场景照片" title="保存照片">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h4l1.5-2h5L16 7h4v12H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+        </button>
+        <button id="reset-button" class="rail-button" type="button" aria-label="重置视角" title="重置视角（R）">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 8 0 1 1 2 6m-2 3v-6h6"/></svg>
+        </button>
+        <span></span>
+        <button id="hide-button" class="rail-button" type="button" aria-label="隐藏界面" title="隐藏界面（H）">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>
+        </button>
+      </div>
+
+      <footer class="bottom-bar">
+        <div class="live-status"><i></i><span>实时 3D</span><small>THREE.JS / WEBGL</small></div>
+        <nav class="view-switcher" aria-label="选择观察视角">
+          <button class="active" data-view="0" type="button"><span>01</span>海岸全景</button>
+          <button data-view="1" type="button"><span>02</span>玄武岩柱</button>
+          <button data-view="2" type="button"><span>03</span>海浪之息</button>
+        </nav>
+        <div class="interaction-hint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V7a2 2 0 0 1 4 0v4-6a2 2 0 0 1 4 0v6-3a2 2 0 0 1 4 0v7c0 4-3 6-7 6-3 0-5-2-7-5l-2-3a2 2 0 0 1 3-2l1 1Z"/></svg><span>拖动环视<small>滚轮缩放 · 1—3 切换视角</small></span></div>
+      </footer>
+    </div>
+
+    <button id="show-button" class="show-button" type="button">显示界面 <span>H</span></button>
+
+    <aside id="field-notes" class="field-notes" aria-hidden="true" aria-labelledby="notes-title">
+      <button id="close-notes" class="notes-close" type="button" aria-label="关闭自然手记">×</button>
+      <span class="notes-kicker">FIELD NOTES / 001</span>
+      <h2 id="notes-title">火山的颜色，<br />海洋的形状。</h2>
+      <p>雷尼斯黑沙滩位于冰岛南岸维克镇附近。黑色沙粒源于火山玄武岩，经海水与风长久侵蚀，形成眼前细腻而深沉的海岸。</p>
+      <dl><div><dt>LOCATION</dt><dd>63.4029° N, 19.0447° W</dd></div><div><dt>FORMATION</dt><dd>玄武岩 / 火山碎屑</dd></div><div><dt>OCEAN</dt><dd>北大西洋</dd></div></dl>
+      <div class="notes-warning"><span>!</span><p>真实海岸可能出现难以预测的“疯狗浪”。<br />请勿背对大海，并远离水线。</p></div>
+      <small> procedurally modeled in THREE.JS<br />程序化地形 · 实时光照 · 动态海面</small>
+    </aside>
+    <div id="toast" class="toast" role="status"></div>
+  </main>
+  <script type="module" src="/src/iceland/main.js"></script>
+</body>
+</html>

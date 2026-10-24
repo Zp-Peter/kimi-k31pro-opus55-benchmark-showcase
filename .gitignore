@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+*.log
+.ffmpeg-path
+.ffprobe-path
+.claude/
+.cache/
+.vite/

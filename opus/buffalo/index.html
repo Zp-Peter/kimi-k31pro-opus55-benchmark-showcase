@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>水牛牌 · 三种风格</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=Oswald:wght@500;700&family=ZCOOL+KuaiLe&family=Space+Grotesk:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#111;color:#eee;font-family:"Noto Sans SC",sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px}
+h1{font-size:clamp(28px,4vw,44px);font-weight:900;text-align:center}
+p.s{color:#888;margin-top:10px;text-align:center}
+.row{display:grid;grid-template-columns:repeat(3,minmax(0,360px));gap:24px;margin-top:50px;perspective:1200px}
+a.c{display:block;height:440px;border-radius:18px;padding:28px;position:relative;overflow:hidden;color:inherit;text-decoration:none;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s;transform-style:preserve-3d}
+a.c:hover{transform:translateY(-10px) rotateX(4deg);box-shadow:0 40px 60px -30px rgba(0,0,0,.8)}
+.c .n{font-size:13px;opacity:.7;letter-spacing:.2em}
+.c h2{font-size:34px;margin-top:14px;line-height:1.15}
+.c p{margin-top:12px;font-size:14px;line-height:1.8;opacity:.75}
+.c .go{position:absolute;left:28px;bottom:26px;font-size:13px;letter-spacing:.2em}
+.c1{background:radial-gradient(circle at 70% 75%,rgba(255,106,26,.45),transparent 50%),linear-gradient(#0d1013,#1d1512);border:1px solid rgba(255,255,255,.08)}
+.c1 h2{font-weight:900}.c1 .n,.c1 .go{font-family:Oswald;color:#ff6a1a}
+.c1::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(transparent,#0a0c0d),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 160' preserveAspectRatio='none'%3E%3Cpath d='M0 160V90L50 40 90 80 140 20 200 90 250 50 300 100 360 60V160Z' fill='%23232a26'/%3E%3C/svg%3E") bottom/100% 100% no-repeat;z-index:0}
+.c2{background:linear-gradient(#bfe5f0,#f7f0e3);color:#23302a}
+.c2 h2{font-family:"ZCOOL KuaiLe";font-weight:400}.c2 .n,.c2 .go{color:#e86a3f;font-weight:700}
+.c2::after{content:"⛺🌲🔥";position:absolute;right:20px;bottom:60px;font-size:54px}
+.c3{background:#050607;border:1px solid rgba(200,255,46,.25);font-family:"JetBrains Mono"}
+.c3 h2{font-family:"Space Grotesk";color:#c8ff2e}.c3 .n,.c3 .go{color:#c8ff2e}
+.c3::after{content:"";position:absolute;inset:0;background:radial-gradient(rgba(200,255,46,.35) 1px,transparent 1.5px) 0 0/14px 14px;-webkit-mask:radial-gradient(circle at 70% 75%,#000,transparent 55%);mask:radial-gradient(circle at 70% 75%,#000,transparent 55%)}
+.c>*{position:relative;z-index:1}
+@media(max-width:1000px){.row{grid-template-columns:1fr;max-width:420px;width:100%}a.c{height:320px}}
+</style>
+</head>
+<body>
+<h1>水牛牌 BUFFALO · 产品官网 3 种风格</h1>
+<p class="s">点击卡片进入完整站点</p>
+<div class="row">
+  <a class="c c1" href="01-expedition.html"><div class="n">STYLE 01 · EXPEDITION</div><h2>暗黑远征<br>电影感</h2><p>程序化 3D 雪山飞越、可 360° 拖拽的产品模型与热点、横向滚动的极限测试。</p><div class="go">ENTER →</div></a>
+  <a class="c c2" href="02-camp.html"><div class="n">STYLE 02 · CAMP</div><h2>清新露营<br>生活方式</h2><p>低多边形 3D 漂浮营地岛、昼夜切换、翻转卡片、清单生成器与飞入购物车动效。</p><div class="go">进入 →</div></a>
+  <a class="c c3" href="03-xlab.html"><div class="n">STYLE 03 · X-LAB</div><h2>科技机能<br>实验室</h2><p>12,000 粒子形态变换、五层面料 3D 爆炸图、雷达图、终端日志与倒计时。</p><div class="go">ENTER_ →</div></a>
+</div>
+</body>
+</html>

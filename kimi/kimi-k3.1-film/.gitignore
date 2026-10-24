@@ -1,0 +1,5 @@
+node_modules/
+previews/
+.remotion/
+.ffmpeg-path
+.ffprobe-path

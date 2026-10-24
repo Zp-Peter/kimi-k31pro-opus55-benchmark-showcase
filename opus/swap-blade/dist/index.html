@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>换庭斩 · Swap Blade</title>
+    <script type="module" crossorigin src="./assets/index-DkYnmCDD.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B6awEfsa.css">
+  </head>
+  <body>
+    <div id="view"></div>
+
+    <!-- 战斗 HUD -->
+    <div id="hud" class="hidden">
+      <div id="topbar">
+        <div id="scores"></div>
+        <div id="clock">
+          <div id="phaseName"></div>
+          <div id="timer">0:00</div>
+          <div id="roundInfo"></div>
+        </div>
+        <div id="targetInfo"></div>
+      </div>
+      <div id="ticker"></div>
+      <div id="killfeed"></div>
+      <div id="mate"></div>
+      <div id="vitals">
+        <div class="hpRow"><span id="hpNum">100</span><div class="bar"><div id="hpFill"></div><div id="hpGhost"></div></div></div>
+        <div class="armorRow" id="armorRow"><span class="lbl">甲</span><div class="bar small"><div id="armorFill"></div></div><span id="armorNum">0</span></div>
+        <div class="guardRow" id="guardRow"><span class="lbl">架</span><div class="bar tiny"><div id="guardFill"></div></div></div>
+        <div id="weaponBox"><div id="weaponName"></div><div id="weaponTraits"></div></div>
+        <div id="ctrlHint"></div>
+      </div>
+      <div id="moneyBox"><div id="money">$0</div><div id="moneyDelta"></div></div>
+      <div id="crosshair"><i class="t"></i><i class="b"></i><i class="l"></i><i class="r"></i><div id="guardRing"></div></div>
+      <div id="hitmarker"><i></i><i></i><i></i><i></i></div>
+      <div id="dmgdir"></div>
+      <div id="floaters"></div>
+      <div id="waypoint"><div class="arrow">▲</div><div class="wpText"></div></div>
+      <div id="buildHud">
+        <div id="buildStatus"></div>
+        <div id="buildMsg"></div>
+        <div id="buildBar"></div>
+        <div id="buildInfo"></div>
+        <div id="buildKeys"></div>
+      </div>
+      <div id="spectate"></div>
+      <div id="toasts"></div>
+      <div id="banner"><div class="main"></div><div class="sub"></div></div>
+      <div id="swapPanel" class="panel"></div>
+      <div id="roundPanel" class="panel"></div>
+      <div id="midPanel" class="panel"></div>
+      <div id="scoreboard" class="panel"></div>
+      <div id="resume">点击画面继续（恢复鼠标视角）</div>
+    </div>
+
+    <!-- 主菜单 -->
+    <div id="menu" class="screen">
+      <div class="menuInner">
+        <div class="logo">
+          <div class="logoMain">换庭斩</div>
+          <div class="logoSub">SWAP BLADE · 三渲二第一人称刀战</div>
+        </div>
+        <div class="menuCols">
+          <div class="menuLeft">
+            <div class="secTitle">模式</div>
+            <div id="modeCards"></div>
+            <div class="secTitle">AI 难度</div>
+            <div id="diffBtns" class="seg"></div>
+            <button id="btnStart" class="big">开始比赛</button>
+            <div class="row">
+              <button id="btnHelp">操作与规则</button>
+              <button id="btnSettings">设置</button>
+            </div>
+          </div>
+          <div class="menuRight">
+            <div class="secTitle">三个关键</div>
+            <ol class="keyPoints">
+              <li><b>先建自己的区</b><span>开局去本队负责的庭院，用预算摆放掩体。</span></li>
+              <li><b>换到别人的区出生</b><span>建完后随机换区，你一定会在别队建的庭院出生，每回合重抽。</span></li>
+              <li><b>最后存活的队得分</b><span>4 队混战，最后还有人活着的队伍拿 1 分，先到目标分获胜。</span></li>
+            </ol>
+            <div class="menuNote">
+              近战刀具 · 4 队 × 2 人 · 你 + 1 名 AI 队友 vs 3 支 AI 队伍<br />
+              AI 队伍之间也会互相厮杀，不会集体只追你。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 暂停 -->
+    <div id="pause" class="screen modal hidden">
+      <div class="card narrow">
+        <h2>已暂停</h2>
+        <button data-act="resume" class="big">继续游戏</button>
+        <button data-act="help">操作与规则</button>
+        <button data-act="settings">设置</button>
+        <button data-act="restart">重新开始本局</button>
+        <button data-act="quit">返回主菜单</button>
+      </div>
+    </div>
+
+    <!-- 操作与规则 -->
+    <div id="help" class="screen modal hidden">
+      <div class="card wide">
+        <h2>操作与规则</h2>
+        <div id="helpBody"></div>
+        <button data-act="back" class="big">返回</button>
+      </div>
+    </div>
+
+    <!-- 设置 -->
+    <div id="settings" class="screen modal hidden">
+      <div class="card narrow">
+        <h2>设置</h2>
+        <div id="settingsBody"></div>
+        <button data-act="back" class="big">返回</button>
+      </div>
+    </div>
+
+    <!-- 首次提示 -->
+    <div id="tutorial" class="screen modal hidden">
+      <div class="card tut">
+        <h2>开打之前，记住三件事</h2>
+        <div class="tutItems">
+          <div class="tutItem"><div class="num">壹</div><b>去建你负责的区</b><p>地图分成 A/B/C/D 四个庭院。跟着<span class="hl">黄色光柱</span>走到本队建造区，用 20 点预算摆放掩体。</p></div>
+          <div class="tutItem"><div class="num">贰</div><b>你会在别人的区出生</b><p>建造结束后<span class="hl">随机换区</span>：每队都会被分到别队建的庭院出生，每回合重新抽取。</p></div>
+          <div class="tutItem"><div class="num">叁</div><b>最后存活的队得分</b><p>4 队混战，回合中阵亡不复活。<span class="hl">最后还有人活着</span>的队伍得 1 分。</p></div>
+        </div>
+        <button data-act="ok" class="big">明白了，开始建造</button>
+      </div>
+    </div>
+
+    <!-- 商店 -->
+    <div id="shop" class="screen modal hidden">
+      <div class="card shopCard">
+        <div class="shopHead">
+          <div><h2>军械架</h2><div class="shopSub">准备阶段 · 只在本阶段开放</div></div>
+          <div class="shopTimer" id="shopTimer"></div>
+          <div class="shopMoney" id="shopMoney"></div>
+        </div>
+        <div id="shopSwap"></div>
+        <div id="shopCur"></div>
+        <div id="shopItems"></div>
+        <div id="shopResult"></div>
+        <div class="shopFoot">
+          <div class="shopRule">存活者保留武器与剩余护甲；阵亡者下回合恢复为免费短刀。本阶段买下的武器可原价退回。</div>
+          <div class="row">
+            <button data-act="close">关闭（B）</button>
+            <button data-act="ready" class="big">准备就绪（Enter）</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 整场结算 -->
+    <div id="matchEnd" class="screen modal hidden">
+      <div class="card wide">
+        <div id="matchEndBody"></div>
+        <div class="row">
+          <button data-act="again" class="big">再来一局</button>
+          <button data-act="menu">返回主菜单</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="loading">载入中…</div>
+  </body>
+</html>

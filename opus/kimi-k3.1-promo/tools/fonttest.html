@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Sora;font-weight:800;src:url(/node_modules/@fontsource/sora/files/sora-latin-800-normal.woff2)}
+@font-face{font-family:Sora;font-weight:600;src:url(/node_modules/@fontsource/sora/files/sora-latin-600-normal.woff2)}
+@font-face{font-family:Inter;font-weight:800;src:url(/node_modules/@fontsource/inter/files/inter-latin-800-normal.woff2)}
+@font-face{font-family:Inter;font-weight:600;src:url(/node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2)}
+@font-face{font-family:SG;font-weight:700;src:url(/node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2)}
+@font-face{font-family:Outfit;font-weight:700;src:url(/node_modules/@fontsource/outfit/files/outfit-latin-700-normal.woff2)}
+@font-face{font-family:Manrope;font-weight:800;src:url(/node_modules/@fontsource/manrope/files/manrope-latin-800-normal.woff2)}
+@font-face{font-family:JBM;font-weight:500;src:url(/node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2)}
+body{margin:0;background:#05070c;color:#fff}
+</style></head><body><canvas id=c width=1920 height=1080></canvas><script>
+(async()=>{
+ const fams=['800 120px Sora','800 120px Inter','700 120px SG','700 120px Outfit','800 120px Manrope','700 120px system-ui','600 120px "Avenir Next"','700 120px "Helvetica Neue"'];
+ for(const f of fams){ try{ await document.fonts.load(f, 'Kimi K3.1'); }catch(e){} }
+ await document.fonts.load('500 40px JBM');
+ const c=document.getElementById('c'),x=c.getContext('2d'); x.fillStyle='#05070c'; x.fillRect(0,0,1920,1080);
+ x.fillStyle='#fff'; x.textBaseline='alphabetic';
+ fams.forEach((f,i)=>{ const col=i%2, row=(i/2|0); x.font=f.replace('120px','100px'); x.fillText('Kimi K3.1',60+col*960,130+row*150); x.font='22px JBM'; x.fillStyle='#6af'; x.fillText(f,60+col*960,160+row*150); x.fillStyle='#fff'; });
+ const cn=['200','300','400','500','600'];
+ cn.forEach((w,i)=>{ x.font=`${w} 56px "PingFang SC"`; x.fillText('推进开放智能的前沿 '+w,60+(i%2)*960,760+(i/2|0)*90); });
+ x.font='500 34px JBM'; x.fillStyle='#8cf'; x.fillText('const world = await kimi.build({ engine: "Godot" });',60,1050);
+ window.ready=true;
+})();
+</script></body></html>

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#182a25" />
+  <meta name="description" content="牧野逐风——驾驶你的水牛，在青溪古镇、稻田与群山之间展开一场中国风 3D 竞速。" />
+  <title>牧野逐风 · 3D 水牛竞速</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='9' fill='%23a43b2a'/%3E%3Cpath d='M13 12v11c0 8 4 13 11 13s11-5 11-13V12l-5 8H18Z' fill='none' stroke='%23f1e6cb' stroke-width='2.5'/%3E%3Cpath d='M18 20 10 14m20 6 8-6M24 22v10' stroke='%23f1e6cb' stroke-width='2.5'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;600&family=Noto+Serif+SC:wght@500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/game/style.css" />
+</head>
+<body>
+  <main id="game" aria-label="牧野逐风三维水牛竞速游戏">
+    <div id="scene" aria-label="三维江南水乡赛道"></div>
+    <div class="scene-vignette" aria-hidden="true"></div>
+    <div class="paper-grain" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="牧野逐风首页">
+        <span class="brand-seal">牧</span>
+        <span class="brand-name">牧野逐风<small>PASTORAL GRAND PRIX</small></span>
+      </a>
+      <div class="top-location"><i></i><span>青溪古道</span><small>江南 · 暮春</small></div>
+      <div class="top-actions">
+        <button id="camera-button" class="round-button game-only" type="button" aria-label="切换视角" title="切换视角（C）">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h4l1.5-2h5L16 7h4v12H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>
+        </button>
+        <button id="sound-button" class="round-button" type="button" aria-label="开启声音" title="声音（M）">
+          <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4Z"/><path d="m16 9 5 6m0-6-5 6"/></svg>
+          <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4Z"/><path d="M15 9a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12"/></svg>
+        </button>
+        <button id="fullscreen-button" class="round-button" type="button" aria-label="全屏游戏" title="全屏">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg>
+        </button>
+        <button id="pause-button" class="round-button game-only" type="button" aria-label="暂停比赛" title="暂停（Esc）">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6v12m8-12v12"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section id="start-screen" class="start-screen screen is-visible" aria-labelledby="game-title">
+      <div class="start-ink" aria-hidden="true"></div>
+      <div class="hero-panel">
+        <div class="chapter-label"><span>东方田园竞速</span><i></i><small>第 壹 回</small></div>
+        <h1 id="game-title">牧野<span>逐风</span></h1>
+        <div class="english-title">THE PASTORAL GRAND PRIX</div>
+        <p class="hero-poem">一蓑烟雨入青溪，十里稻香踏歌行。<br />握紧缰绳，与你的水牛一同逐风。</p>
+        <div class="start-actions">
+          <button id="start-button" class="primary-button" type="button"><span>扬鞭启程</span><i>→</i></button>
+          <div class="difficulty" role="group" aria-label="比赛难度">
+            <button class="active" data-difficulty="normal" type="button">标准</button>
+            <button data-difficulty="hard" type="button">争先</button>
+          </div>
+        </div>
+        <div class="quick-guide">
+          <span><kbd>W</kbd><kbd>↑</kbd> 加速</span>
+          <span><kbd>A</kbd><kbd>D</kbd> 转向</span>
+          <span><kbd>Space</kbd> 鼓劲</span>
+        </div>
+      </div>
+
+      <aside class="vertical-poem" aria-hidden="true"><span>风过稻田千重浪</span><i></i><span>蹄踏青溪一路歌</span></aside>
+
+      <div class="race-card">
+        <div class="race-card-heading"><span>今日赛事</span><small>RACE 01</small></div>
+        <h2>青溪古道 <span>QINGXI CIRCUIT</span></h2>
+        <div class="race-card-meta">
+          <div><strong>02</strong><span>比赛圈数<small>LAPS</small></span></div>
+          <div><strong>06</strong><span>参赛牧童<small>RIDERS</small></span></div>
+          <div><strong>暮春</strong><span>晴 · 微风<small>WEATHER</small></span></div>
+        </div>
+        <div class="race-card-route"><span>青溪牌坊</span><i></i><span>稻香田</span><i></i><span>枕水人家</span><i></i><span>竹林坡</span></div>
+      </div>
+      <div class="start-footnote"><i></i> REALTIME 3D <span>·</span> 程序化国风场景 <span>·</span> 建议佩戴耳机</div>
+    </section>
+
+    <section id="hud" class="hud" aria-label="比赛信息">
+      <div class="position-panel">
+        <div class="position-number"><strong id="position">6</strong><span>/ 6<small>当前名次</small></span></div>
+        <div class="lap-info"><span>第 <b id="lap">1</b> / 2 圈</span><div class="lap-track"><i id="lap-progress"></i></div></div>
+      </div>
+      <div class="timer-panel"><small>RACE TIME</small><span id="timer">00:00.000</span><em id="best-lap">最佳 --:--.---</em></div>
+
+      <aside class="minimap-panel" aria-label="赛道地图">
+        <div class="minimap-heading"><span>青溪古道</span><small>赛道图</small></div>
+        <canvas id="minimap" width="220" height="180"></canvas>
+        <div class="minimap-legend"><span><i class="player-dot"></i>你</span><span><i></i>对手</span><b>N ↑</b></div>
+      </aside>
+
+      <div id="race-message" class="race-message" aria-live="polite"><small>青溪古道</small><strong>最终圈</strong></div>
+      <div id="countdown" class="countdown" aria-live="assertive"><span>3</span><small>备 鞍</small></div>
+
+      <div class="speed-panel">
+        <div class="boost-label"><span>水牛气力</span><small>SPACE 鼓劲</small></div>
+        <div class="boost-track"><i id="boost-fill"></i><b></b><b></b><b></b></div>
+        <div class="speedometer">
+          <svg viewBox="0 0 180 112" aria-hidden="true">
+            <path class="speed-bg" d="M23 96a70 70 0 1 1 134 0" />
+            <path id="speed-arc" class="speed-arc" d="M23 96a70 70 0 1 1 134 0" />
+            <g class="speed-ticks"><path d="M23 96l7-2M19 67l8 2M32 38l6 6M59 18l3 8M90 11v9M121 18l-3 8M148 38l-6 6M161 67l-8 2M157 96l-7-2"/></g>
+          </svg>
+          <div class="speed-value"><strong id="speed">0</strong><span>公里 / 时</span></div>
+        </div>
+      </div>
+      <div class="rider-tag"><span class="rider-avatar">禾</span><div><strong>阿禾 · 青嶂</strong><small>青溪村牧童</small></div><i></i><span id="camera-label">追逐视角</span></div>
+      <div class="keyboard-hint"><span><kbd>ESC</kbd> 暂停</span><span><kbd>C</kbd> 视角</span><span><kbd>R</kbd> 回正</span></div>
+    </section>
+
+    <div id="touch-controls" class="touch-controls" aria-label="触屏操作">
+      <div class="touch-steer"><button data-control="left" aria-label="左转">←</button><button data-control="right" aria-label="右转">→</button></div>
+      <div class="touch-drive"><button class="touch-boost" data-control="boost" aria-label="鼓劲">鼓劲</button><button class="touch-brake" data-control="brake" aria-label="减速">缓行</button><button class="touch-gas" data-control="gas" aria-label="加速">加速</button></div>
+    </div>
+
+    <section id="pause-screen" class="modal-screen screen" aria-labelledby="pause-title">
+      <div class="modal-card">
+        <span class="modal-seal">歇</span><small>TAKE A BREATH</small>
+        <h2 id="pause-title">且听风吟</h2><p>比赛已暂停，水牛也正歇歇脚。</p>
+        <button id="resume-button" class="primary-button" type="button"><span>继续逐风</span><i>→</i></button>
+        <button id="restart-button-pause" class="secondary-button" type="button">重新开始</button>
+        <div class="modal-help">W / ↑ 加速　·　S / ↓ 减速　·　A D / ← → 转向<br />SPACE 鼓劲　·　C 切换视角　·　R 回到赛道</div>
+      </div>
+    </section>
+
+    <section id="result-screen" class="modal-screen screen" aria-labelledby="result-title">
+      <div class="modal-card result-card">
+        <span id="result-seal" class="modal-seal">胜</span><small>RACE COMPLETE</small>
+        <h2 id="result-title">逐风而归</h2><p id="result-subtitle">青溪古道 · 比赛完成</p>
+        <div class="result-position"><strong id="result-position">1</strong><span>名<small>/ 共 6 名</small></span></div>
+        <div class="result-stats"><div><small>总用时</small><strong id="result-time">00:00.000</strong></div><div><small>最佳圈速</small><strong id="result-best">00:00.000</strong></div></div>
+        <ol id="result-standings" class="result-standings"></ol>
+        <button id="restart-button" class="primary-button" type="button"><span>再赛一场</span><i>↻</i></button>
+        <button id="menu-button" class="secondary-button" type="button">返回青溪</button>
+      </div>
+    </section>
+
+    <section id="loading" class="loading-screen is-visible" aria-live="polite">
+      <div class="loading-landscape" aria-hidden="true"><i></i><i></i><i></i></div>
+      <span class="loading-seal">牧</span><h2>牧野逐风</h2><p id="loading-text">正在铺展青溪山水</p>
+      <div class="loading-line"><i id="loading-progress"></i></div><small>水墨江南 · 即将启程</small>
+    </section>
+
+    <div id="toast" class="toast" role="status"></div>
+    <div class="orientation-hint">横屏体验，山水更开阔</div>
+  </main>
+  <script type="module" src="/src/game/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kimi K3.1 · 宣传短片</title>
+<link rel="icon" href="data:,">
+<style>
+@font-face { font-family: Inter; font-weight: 300; src: url(node_modules/@fontsource/inter/files/inter-latin-300-normal.woff2); }
+@font-face { font-family: Inter; font-weight: 400; src: url(node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2); }
+@font-face { font-family: Inter; font-weight: 500; src: url(node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2); }
+@font-face { font-family: Inter; font-weight: 600; src: url(node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2); }
+@font-face { font-family: Inter; font-weight: 700; src: url(node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2); }
+@font-face { font-family: Inter; font-weight: 800; src: url(node_modules/@fontsource/inter/files/inter-latin-800-normal.woff2); }
+@font-face { font-family: Inter; font-weight: 900; src: url(node_modules/@fontsource/inter/files/inter-latin-900-normal.woff2); }
+@font-face { font-family: JBM; font-weight: 400; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2); }
+@font-face { font-family: JBM; font-weight: 500; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2); }
+@font-face { font-family: JBM; font-weight: 700; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2); }
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+#c { display: block; width: 1920px; height: 1080px; }
+body:not(.render) #c { width: 100vw; height: calc(100vw * 9 / 16); max-height: calc(100vh - 48px); max-width: calc((100vh - 48px) * 16 / 9); margin: 0 auto; }
+#ui { display: none; position: fixed; left: 0; right: 0; bottom: 0; height: 48px; align-items: center; gap: 12px; padding: 0 16px; background: #0b0d12; color: #cfd6e4; font: 13px JBM, monospace; }
+#ui input { flex: 1; }
+#ui button { background: #1b2232; color: #cfd6e4; border: 1px solid #2c3850; border-radius: 6px; padding: 6px 12px; font: inherit; cursor: pointer; }
+</style>
+<script type="importmap">{ "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./node_modules/three/examples/jsm/" } }</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="ui"><button id="play">▶ / ❚❚</button><span id="time">0:00.00</span><input id="scrub" type="range" min="0" max="64" step="0.01" value="0"></div>
+<audio id="audio" src="out/soundtrack.wav" preload="auto"></audio>
+<script>if (new URLSearchParams(location.search).has('render')) document.body.classList.add('render');</script>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

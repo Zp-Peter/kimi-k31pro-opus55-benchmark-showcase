@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>水牛牌 BUFFALO · 远征系列</title>
+<meta name="description" content="水牛牌户外 · 远征系列：为最坏的天气而造。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0c0d;--bg2:#111517;--fg:#efe9dd;--muted:#8d938f;--accent:#ff6a1a;--accent2:#ffb347;--line:rgba(239,233,221,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden}
+body{background:var(--bg);color:var(--fg);font-family:"Noto Sans SC",system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:#000}
+.en{font-family:Oswald,"Noto Sans SC",sans-serif;letter-spacing:.04em}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center}
+#loader .wrap{text-align:center}
+#loader svg{width:96px;color:var(--accent);animation:pulse 1.2s ease-in-out infinite}
+#loader .pct{font-family:Oswald;font-size:13px;letter-spacing:.4em;margin-top:18px;color:var(--muted)}
+#loader .bar{width:200px;height:2px;background:var(--line);margin:14px auto 0;overflow:hidden}
+#loader .bar i{display:block;height:100%;width:0;background:var(--accent)}
+@keyframes pulse{50%{transform:scale(1.08);opacity:.7}}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:24px 48px;transition:background .4s,padding .4s,border-color .4s;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(10,12,13,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:14px 48px;border-color:var(--line)}
+.logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:20px;letter-spacing:.08em}
+.logo svg{width:40px;color:var(--accent)}
+.logo small{font-family:Oswald;font-weight:500;font-size:11px;letter-spacing:.35em;color:var(--muted);display:block;line-height:1.2}
+.links{display:flex;gap:36px;font-size:14px;color:var(--muted)}
+.links a{position:relative;transition:color .3s}
+.links a:hover{color:var(--fg)}
+.links a::after{content:"";position:absolute;left:0;bottom:-6px;height:1px;width:0;background:var(--accent);transition:width .3s}
+.links a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:2px;font-family:inherit;font-weight:700;font-size:14px;letter-spacing:.12em;cursor:pointer;border:0;position:relative;overflow:hidden;isolation:isolate}
+.btn span,.btn svg{position:relative;z-index:1}
+.btn svg{width:16px;transition:transform .3s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-primary{background:var(--accent);color:#140a03}
+.btn-primary::before{content:"";position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .5s cubic-bezier(.7,0,.2,1)}
+.btn-primary:hover::before{transform:none}
+.btn-ghost{border:1px solid rgba(239,233,221,.3);color:var(--fg);background:rgba(0,0,0,.2);backdrop-filter:blur(6px)}
+.btn-ghost:hover{border-color:var(--fg)}
+.btn-sm{padding:11px 20px;font-size:13px}
+
+/* hero */
+#hero{position:relative;height:100vh;min-height:640px;overflow:hidden}
+#heroCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,transparent 35%,rgba(10,12,13,.8) 100%),linear-gradient(to bottom,rgba(10,12,13,.35),transparent 25%,transparent 65%,var(--bg));pointer-events:none}
+.hero-content{position:absolute;left:48px;bottom:13vh;z-index:2;max-width:920px}
+.eyebrow{font-family:Oswald;letter-spacing:.4em;font-size:13px;color:var(--accent);display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.eyebrow::before{content:"";width:44px;height:1px;background:var(--accent)}
+h1.title{font-size:clamp(58px,10.5vw,160px);font-weight:900;line-height:.98;letter-spacing:-.01em}
+h1 .line{display:block;overflow:hidden;padding-bottom:.04em}
+h1 .line span{display:inline-block}
+h1 .outline{color:transparent;-webkit-text-stroke:2px var(--fg)}
+h1 .dot{color:var(--accent)}
+.hero-sub{margin-top:26px;max-width:520px;color:#bdb9b0;line-height:1.9;font-size:16px}
+.hero-cta{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
+.hero-meta{position:absolute;right:48px;bottom:13vh;z-index:2;text-align:right;font-family:Oswald;color:var(--muted);font-size:12px;letter-spacing:.25em;line-height:2.2}
+.hero-meta b{color:var(--fg);font-size:30px;display:block;letter-spacing:.04em;font-weight:500;line-height:1.1}
+.hero-meta div+div{margin-top:18px}
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2;font-family:Oswald;font-size:11px;letter-spacing:.4em;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-hint i{width:1px;height:46px;background:linear-gradient(var(--accent),transparent);animation:drip 1.8s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line);overflow:hidden;padding:22px 0;background:var(--bg)}
+.marquee .track{display:flex;width:max-content;animation:marq 34s linear infinite}
+.marquee span{font-family:Oswald;font-size:30px;font-weight:500;letter-spacing:.06em;padding-right:60px;white-space:nowrap;display:flex;align-items:center;gap:60px}
+.marquee span::after{content:"";width:12px;height:12px;background:var(--accent);transform:rotate(45deg)}
+.marquee span:nth-child(even){color:transparent;-webkit-text-stroke:1px var(--fg)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* sections */
+.sec{padding:140px 48px;position:relative}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:72px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(38px,5.4vw,80px);font-weight:900;line-height:1.08}
+.sec-head h2 em{font-style:normal;color:var(--accent)}
+.sec-head p{max-width:420px;color:var(--muted);line-height:1.9}
+.kicker{font-family:Oswald;letter-spacing:.35em;font-size:12px;color:var(--accent);margin-bottom:18px;display:block}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.stat{padding:48px 32px 8px;border-right:1px solid var(--line)}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:0}
+.stat .num{font-family:Oswald;font-size:clamp(52px,6.2vw,96px);font-weight:700;line-height:1;display:flex;align-items:baseline;gap:8px}
+.stat .num small{font-size:.3em;color:var(--accent);font-weight:500;letter-spacing:.1em}
+.stat h4{margin-top:20px;font-size:18px}
+.stat p{margin-top:8px;color:var(--muted);font-size:14px;line-height:1.8}
+.stat .meter{margin-top:26px;height:3px;background:var(--line);position:relative;overflow:hidden}
+.stat .meter i{position:absolute;inset:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transform-origin:left;transform:scaleX(0)}
+.stat .meter-label{display:flex;justify-content:space-between;font-family:Oswald;font-size:11px;letter-spacing:.2em;color:var(--muted);margin-top:10px}
+
+/* gear viewer */
+#gear{background:linear-gradient(var(--bg),var(--bg2) 20%,var(--bg2) 80%,var(--bg))}
+.viewer{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:center}
+.stage{position:relative;aspect-ratio:1/1;max-height:80vh;width:100%;background:radial-gradient(circle at 50% 58%,rgba(255,106,26,.18),transparent 58%),linear-gradient(180deg,rgba(255,255,255,.02),transparent)}
+.stage canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+.stage canvas:active{cursor:grabbing}
+.stage .c{position:absolute;width:22px;height:22px;border-color:var(--accent);border-style:solid;border-width:0;pointer-events:none}
+.c1{left:0;top:0;border-left-width:2px!important;border-top-width:2px!important}
+.c2{right:0;top:0;border-right-width:2px!important;border-top-width:2px!important}
+.c3{left:0;bottom:0;border-left-width:2px!important;border-bottom-width:2px!important}
+.c4{right:0;bottom:0;border-right-width:2px!important;border-bottom-width:2px!important}
+.stage .hud{position:absolute;font-family:Oswald;font-size:11px;letter-spacing:.3em;color:var(--muted);pointer-events:none}
+.hud.tl{left:34px;top:26px}.hud.br{right:34px;bottom:26px;text-align:right}.hud.bl{left:34px;bottom:26px}
+.hud b{color:var(--accent);font-weight:500}
+#hsLayer{position:absolute;inset:0;pointer-events:none}
+.hotspot{position:absolute;left:0;top:0;pointer-events:auto;transition:opacity .35s}
+.hotspot .dot{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--accent);border:3px solid rgba(255,255,255,.85);animation:ping 2s infinite;cursor:pointer}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,106,26,.7)}70%{box-shadow:0 0 0 16px rgba(255,106,26,0)}100%{box-shadow:0 0 0 0 rgba(255,106,26,0)}}
+.hotspot .tip{position:absolute;left:20px;top:0;transform:translate(-8px,-50%);white-space:nowrap;background:rgba(10,12,13,.92);border:1px solid var(--line);border-left:2px solid var(--accent);padding:10px 14px;opacity:0;pointer-events:none;transition:.3s}
+.hotspot .tip b{display:block;font-size:14px;margin-bottom:3px}
+.hotspot .tip span{color:var(--muted);font-size:12px}
+.hotspot:hover .tip,.hotspot.on .tip{opacity:1;transform:translate(0,-50%)}
+.hotspot.hidden{opacity:0;pointer-events:none}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:40px}
+.tab{padding:16px 16px 14px;border:1px solid var(--line);background:transparent;color:var(--muted);font-family:inherit;font-size:14px;cursor:pointer;text-align:left;transition:.3s;position:relative;overflow:hidden}
+.tab small{display:block;font-family:Oswald;letter-spacing:.2em;font-size:11px;margin-bottom:4px}
+.tab::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.tab:hover{color:var(--fg)}
+.tab.active{color:var(--fg);background:rgba(255,106,26,.07);border-color:rgba(255,106,26,.4)}
+.tab.active::after{transform:none}
+.p-code{font-family:Oswald;letter-spacing:.3em;color:var(--accent);font-size:13px}
+.p-name{font-size:clamp(32px,3.4vw,48px);font-weight:900;margin-top:8px;line-height:1.15}
+.p-tag{margin-top:10px;color:var(--muted);font-size:14px}
+.p-desc{margin-top:22px;color:#c6c2b8;line-height:1.9;font-size:15px}
+.specs{margin-top:30px;display:grid;gap:16px}
+.spec{display:grid;grid-template-columns:90px 1fr 110px;gap:16px;align-items:center;font-size:14px}
+.spec .k{color:var(--muted)}
+.spec .bar{height:4px;background:var(--line);overflow:hidden}
+.spec .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transform-origin:left}
+.spec .v{font-family:Oswald;font-size:18px;text-align:right;letter-spacing:.03em}
+.buy{margin-top:38px;display:flex;align-items:center;gap:26px;flex-wrap:wrap;padding-top:30px;border-top:1px solid var(--line)}
+.price{font-family:Oswald;font-size:44px;font-weight:700;line-height:1}
+.price small{font-size:18px;margin-right:2px;color:var(--accent)}
+.price del{font-size:16px;color:var(--muted);margin-left:10px;font-weight:400}
+
+/* tests: horizontal */
+#tests{height:100vh;overflow:hidden;position:relative;background:var(--bg)}
+.h-track{display:flex;gap:28px;height:100%;align-items:center;padding:0 48px;width:max-content;will-change:transform}
+.h-intro{width:min(520px,80vw);flex-shrink:0;padding-right:40px}
+.h-intro h2{font-size:clamp(40px,5vw,76px);font-weight:900;line-height:1.08;margin-bottom:24px}
+.h-intro h2 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--fg)}
+.h-intro p{color:var(--muted);line-height:1.9;max-width:420px}
+.h-intro .arrow{margin-top:36px;font-family:Oswald;letter-spacing:.3em;font-size:12px;color:var(--accent);display:flex;align-items:center;gap:14px}
+.h-intro .arrow i{width:70px;height:1px;background:var(--accent);position:relative}
+.h-intro .arrow i::after{content:"";position:absolute;right:0;top:-4px;width:9px;height:9px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);transform:rotate(45deg)}
+.t-card{width:min(500px,82vw);height:min(72vh,680px);flex-shrink:0;position:relative;overflow:hidden;border:1px solid var(--line);transition:border-color .4s}
+.t-card:hover{border-color:rgba(255,106,26,.6)}
+.t-card svg.bg{position:absolute;inset:0;width:100%;height:100%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.t-card:hover svg.bg{transform:scale(1.06)}
+.t-card::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 35%,rgba(5,6,7,.92));pointer-events:none}
+.t-card .idx{position:absolute;left:30px;top:26px;z-index:2;font-family:Oswald;font-size:13px;letter-spacing:.3em;color:rgba(255,255,255,.75)}
+.t-card .where{position:absolute;right:30px;top:26px;z-index:2;font-size:12px;color:rgba(255,255,255,.75);letter-spacing:.1em}
+.t-card .info{position:absolute;left:30px;right:30px;bottom:30px;z-index:2}
+.t-card .big{font-family:Oswald;font-size:clamp(64px,7vw,104px);font-weight:700;line-height:1;color:var(--fg)}
+.t-card h3{font-size:22px;margin-top:10px}
+.t-card p{margin-top:10px;color:#bdb9b0;font-size:14px;line-height:1.8}
+.t-card .pass{display:inline-flex;margin-top:16px;font-family:Oswald;font-size:12px;letter-spacing:.25em;padding:6px 12px;border:1px solid var(--accent);color:var(--accent)}
+.h-progress{position:absolute;left:48px;right:48px;bottom:40px;height:1px;background:var(--line)}
+.h-progress i{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(0)}
+@keyframes rain{to{transform:translate(-40px,700px)}}
+@keyframes fall{to{transform:translate(20px,720px)}}
+@keyframes twinkle{50%{opacity:.2}}
+@keyframes shimmer{50%{transform:translateY(-6px) scaleY(1.04);opacity:.55}}
+
+/* quote */
+.quote{padding:180px 48px;text-align:center;overflow:hidden}
+.quote .q{font-size:clamp(28px,4.2vw,62px);font-weight:900;line-height:1.45;max-width:1200px;margin:0 auto}
+.quote .q em{font-style:normal;color:var(--accent)}
+.quote .q .ch{opacity:.12}
+.quote .by{margin-top:44px;color:var(--muted);font-size:14px;letter-spacing:.1em}
+.quote .mark{font-family:Oswald;font-size:180px;line-height:.6;color:var(--accent);opacity:.9;display:block;height:80px}
+
+/* cta */
+.cta{padding:150px 48px;position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.cta-grid{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center}
+.cta h2{font-size:clamp(44px,7.5vw,128px);font-weight:900;line-height:1.02}
+.cta h2 span{display:block}
+.cta h2 .o{color:transparent;-webkit-text-stroke:2px var(--fg)}
+.cta p{margin-top:28px;color:var(--muted);max-width:520px;line-height:1.9}
+.code{display:inline-flex;align-items:center;gap:14px;margin-top:30px;border:1px dashed rgba(255,106,26,.6);padding:14px 20px;font-family:Oswald;letter-spacing:.25em;cursor:pointer;transition:background .3s}
+.code:hover{background:rgba(255,106,26,.08)}
+.code b{color:var(--accent);font-size:20px;font-weight:500}
+.code small{font-size:11px;color:var(--muted)}
+.coin-wrap{perspective:900px;width:240px;height:240px}
+.coin{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:spin 9s linear infinite}
+.coin .face{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;text-align:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:radial-gradient(circle at 35% 30%,#ffa66b,var(--accent) 45%,#b33d06);color:#1a0b02;box-shadow:inset 0 0 0 10px rgba(0,0,0,.15),inset 0 0 0 12px rgba(255,255,255,.35)}
+.coin .face svg{width:70px;margin:0 auto 6px;display:block}
+.coin .face b{font-size:30px;font-weight:900;letter-spacing:.1em;display:block}
+.coin .face small{font-family:Oswald;font-size:11px;letter-spacing:.3em}
+.coin .back{transform:rotateY(180deg);background:radial-gradient(circle at 35% 30%,#3a3f3c,#151817 70%);color:var(--fg)}
+.coin .back b{font-family:Oswald;font-size:56px;color:var(--accent);line-height:1}
+.coin .edge{position:absolute;inset:0;border-radius:50%;background:#7a2a04}
+@keyframes spin{to{transform:rotateY(360deg)}}
+.cta .glow{position:absolute;right:-10%;top:50%;width:700px;height:700px;transform:translateY(-50%);background:radial-gradient(circle,rgba(255,106,26,.22),transparent 60%);pointer-events:none}
+
+footer{padding:70px 48px 40px;border-top:1px solid var(--line);display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:40px;font-size:14px;color:var(--muted)}
+footer h5{color:var(--fg);font-size:14px;margin-bottom:16px}
+footer ul{list-style:none;display:grid;gap:10px}
+footer a:hover{color:var(--accent)}
+footer .copy{grid-column:1/-1;display:flex;justify-content:space-between;padding-top:30px;border-top:1px solid var(--line);font-size:12px;font-family:Oswald;letter-spacing:.15em}
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,120px);background:var(--fg);color:#111;padding:12px 22px;font-size:14px;z-index:90;transition:transform .45s cubic-bezier(.2,.9,.3,1.3)}
+.toast.show{transform:translate(-50%,0)}
+
+@media (max-width:960px){
+  nav,nav.scrolled{padding-left:20px;padding-right:20px}
+  .links{display:none}
+  .hero-content{left:20px;right:20px;bottom:15vh}
+  .hero-meta{display:none}
+  .sec,.quote,.cta{padding-left:20px;padding-right:20px}
+  .sec{padding-top:100px;padding-bottom:100px}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{padding:36px 18px 8px!important;border-right:0;border-bottom:1px solid var(--line)}
+  .viewer{grid-template-columns:minmax(0,1fr)}
+  .viewer>*{min-width:0}
+  .tab{padding:12px 10px;font-size:13px}
+  .stage{max-height:none}
+  .h-track{padding:0 20px}
+  .h-progress{left:20px;right:20px}
+  .cta-grid{grid-template-columns:1fr}
+  .coin-wrap{width:180px;height:180px}
+  footer{grid-template-columns:1fr 1fr;padding-left:20px;padding-right:20px}
+  .spec{grid-template-columns:70px 1fr 90px}
+}
+@media (prefers-reduced-motion:reduce){.marquee .track,.coin{animation:none}}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="wrap">
+  <svg viewBox="0 0 64 44" fill="none"><path d="M5 5c1 11 9 17 21 17M59 5c-1 11-9 17-21 17" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M21 19h22l-3.5 17c-1 5-14 5-15 0z" fill="currentColor"/></svg>
+  <div class="bar"><i></i></div>
+  <div class="pct">LOADING <span id="pct">0</span>%</div>
+</div></div>
+
+<nav id="nav">
+  <a href="#" class="logo">
+    <svg viewBox="0 0 64 44" fill="none"><path d="M5 5c1 11 9 17 21 17M59 5c-1 11-9 17-21 17" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M21 19h22l-3.5 17c-1 5-14 5-15 0z" fill="currentColor"/></svg>
+    <div>水牛牌<small>BUFFALO</small></div>
+  </a>
+  <div class="links">
+    <a href="#stats">核心性能</a><a href="#gear">远征装备</a><a href="#tests">极限测试</a><a href="#join">加入远征</a>
+  </div>
+  <a href="#gear" class="btn btn-primary btn-sm"><span>立即选购</span></a>
+</nav>
+
+<section id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <div class="eyebrow">EXPEDITION SERIES · 2026</div>
+    <h1 class="title">
+      <span class="line"><span>生于荒野<span class="dot">.</span></span></span>
+      <span class="line"><span class="outline">强如水牛</span></span>
+    </h1>
+    <p class="hero-sub">从冰川到沙海，水牛牌远征系列为最坏的天气而造。航空铝骨架、20000mm 防水面料、12 级抗风结构——你只管向前，剩下的交给我们。</p>
+    <div class="hero-cta">
+      <a href="#gear" class="btn btn-primary"><span>探索远征装备</span><svg viewBox="0 0 16 16" fill="none"><path d="M1 8h13M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></a>
+      <a href="#tests" class="btn btn-ghost"><span>查看极限测试</span></a>
+    </div>
+  </div>
+  <div class="hero-meta">
+    <div><b>5,200 M</b>ALTITUDE TESTED</div>
+    <div><b>-40 ℃</b>COLD RATED</div>
+  </div>
+  <div class="scroll-hint">SCROLL<i></i></div>
+</section>
+
+<div class="marquee"><div class="track">
+  <span>20000MM 防水</span><span>12 级抗风</span><span>DAC 航空铝杆</span><span>终身保修</span><span>-40℃ 极寒认证</span><span>BUILT FOR THE WORST</span>
+  <span>20000MM 防水</span><span>12 级抗风</span><span>DAC 航空铝杆</span><span>终身保修</span><span>-40℃ 极寒认证</span><span>BUILT FOR THE WORST</span>
+</div></div>
+
+<section class="sec" id="stats">
+  <div class="sec-head">
+    <div><span class="kicker">01 / PERFORMANCE</span><h2>数据，<br>不说<em>谎</em>。</h2></div>
+    <p>每一件水牛牌装备，都要在实验室与真实荒野中通过 47 项测试。我们只公布经第三方复测的数字。</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="num"><span data-count="20000">0</span><small>MM</small></div><h4>静水压防水</h4><p>超出行业标准 6 倍，暴雨整夜依然干爽。</p><div class="meter"><i data-w=".96"></i></div><div class="meter-label"><span>行业 3000</span><span>水牛 20000</span></div></div>
+    <div class="stat"><div class="num"><span data-count="12">0</span><small>级</small></div><h4>抗风等级</h4><p>32.7 m/s 风洞实测，结构形变小于 4%。</p><div class="meter"><i data-w=".9"></i></div><div class="meter-label"><span>行业 8</span><span>水牛 12</span></div></div>
+    <div class="stat"><div class="num"><span data-count="1.38" data-dec="2">0</span><small>KG</small></div><h4>65L 背包自重</h4><p>钛合金背板 + Cordura 面料，轻 30%。</p><div class="meter"><i data-w=".78"></i></div><div class="meter-label"><span>行业 1.95</span><span>水牛 1.38</span></div></div>
+    <div class="stat"><div class="num"><span data-count="47">0</span><small>项</small></div><h4>出厂测试</h4><p>每批次抽检，不合格整批销毁。</p><div class="meter"><i data-w="1"></i></div><div class="meter-label"><span>行业 12</span><span>水牛 47</span></div></div>
+  </div>
+</section>
+
+<section class="sec" id="gear">
+  <div class="sec-head">
+    <div><span class="kicker">02 / THE GEAR</span><h2>远征三件套，<br><em>360°</em> 看个清楚。</h2></div>
+    <p>拖拽模型自由旋转，点击橙色热点查看细节工艺。每一个结构，都有它存在的理由。</p>
+  </div>
+  <div class="viewer">
+    <div class="stage" id="stage">
+      <canvas id="viewerCanvas"></canvas>
+      <div id="hsLayer"></div>
+      <span class="c c1"></span><span class="c c2"></span><span class="c c3"></span><span class="c c4"></span>
+      <div class="hud tl">MODEL / <b id="hudCode">RHINO 65</b></div>
+      <div class="hud bl">DRAG TO ROTATE ⟲</div>
+      <div class="hud br">BUFFALO LAB<br><span id="hudDeg">000</span>°</div>
+    </div>
+    <div class="info">
+      <div class="tabs">
+        <button class="tab active" data-p="pack"><small>01</small>重装背包</button>
+        <button class="tab" data-p="tent"><small>02</small>高山帐篷</button>
+        <button class="tab" data-p="lamp"><small>03</small>营地灯</button>
+      </div>
+      <div id="pInfo">
+        <div class="p-code" id="pCode"></div>
+        <div class="p-name" id="pName"></div>
+        <div class="p-tag" id="pTag"></div>
+        <p class="p-desc" id="pDesc"></p>
+        <div class="specs" id="pSpecs"></div>
+        <div class="buy">
+          <div class="price" id="pPrice"></div>
+          <button class="btn btn-primary" id="addCart"><span>加入购物车</span><svg viewBox="0 0 16 16" fill="none"><path d="M1 8h13M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tests">
+  <div class="h-track" id="hTrack">
+    <div class="h-intro">
+      <span class="kicker">03 / FIELD TESTED</span>
+      <h2>去过地狱，<br><em>才配叫远征</em>。</h2>
+      <p>实验室的数字只是开始。每一代产品，都要被扔进地球上最不友好的地方，活着回来才能上架。</p>
+      <div class="arrow">SCROLL TO EXPLORE <i></i></div>
+    </div>
+  </div>
+  <div class="h-progress"><i id="hProg"></i></div>
+</section>
+
+<section class="quote">
+  <span class="mark">“</span>
+  <p class="q" id="quote">我们不做最轻的装备，我们做在最坏的天气里，<em>依然可靠</em>的装备。</p>
+  <div class="by">— 林岳 · 水牛牌首席产品设计师 / 七次珠峰北坡领队</div>
+</section>
+
+<section class="cta" id="join">
+  <div class="glow"></div>
+  <div class="cta-grid">
+    <div>
+      <span class="kicker">04 / JOIN THE EXPEDITION</span>
+      <h2><span>装备好了</span><span class="o">出发吧。</span></h2>
+      <p>首单立减 15%，全系产品终身保修、30 天无理由退换。你负责远方，我们负责可靠。</p>
+      <div class="code" id="code"><small>首单优惠码</small><b>BUFFALO15</b><small>点击复制</small></div>
+      <div style="margin-top:34px"><a href="#gear" class="btn btn-primary"><span>选购远征装备</span><svg viewBox="0 0 16 16" fill="none"><path d="M1 8h13M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
+    </div>
+    <div class="coin-wrap"><div class="coin">
+      <div class="face front"><div><svg viewBox="0 0 64 44" fill="none"><path d="M5 5c1 11 9 17 21 17M59 5c-1 11-9 17-21 17" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M21 19h22l-3.5 17c-1 5-14 5-15 0z" fill="currentColor"/></svg><b>终身保修</b><small>LIFETIME WARRANTY</small></div></div>
+      <div class="face back"><div><b>30</b><small>DAYS FREE RETURN</small><br><small style="color:var(--muted)">无理由退换</small></div></div>
+    </div></div>
+  </div>
+</section>
+
+<footer>
+  <div><a href="#" class="logo" style="margin-bottom:18px"><svg viewBox="0 0 64 44" fill="none"><path d="M5 5c1 11 9 17 21 17M59 5c-1 11-9 17-21 17" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M21 19h22l-3.5 17c-1 5-14 5-15 0z" fill="currentColor"/></svg><div>水牛牌<small>BUFFALO</small></div></a><p style="line-height:1.9;max-width:300px">始于 1998，为中国山野而生的户外装备品牌。</p></div>
+  <div><h5>产品</h5><ul><li><a href="#gear">背包</a></li><li><a href="#gear">帐篷</a></li><li><a href="#gear">照明</a></li></ul></div>
+  <div><h5>支持</h5><ul><li><a href="#">保修政策</a></li><li><a href="#">尺码指南</a></li><li><a href="#">门店查询</a></li></ul></div>
+  <div><h5>关注</h5><ul><li><a href="#">微信公众号</a></li><li><a href="#">小红书</a></li><li><a href="#">抖音</a></li></ul></div>
+  <div class="copy"><span>© 2026 BUFFALO OUTDOOR</span><span>BUILT FOR THE WORST</span></div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+gsap.registerPlugin(ScrollTrigger);
+const lenis = new Lenis({ lerp: 0.09 });
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(t => lenis.raf(t * 1000));
+gsap.ticker.lagSmoothing(0);
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const id = a.getAttribute('href'); if (id.length < 2) return;
+  e.preventDefault(); lenis.scrollTo(id, { offset: -40, duration: 1.6 });
+}));
+
+const toast = msg => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2200); };
+
+/* ---------- noise ---------- */
+const hash = (x, y) => { const h = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return h - Math.floor(h); };
+function noise(x, y) {
+  const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+  const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+  const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+function fbm(x, y) { let s = 0, a = .5, f = 1; for (let i = 0; i < 5; i++) { s += a * noise(x * f, y * f); f *= 2; a *= .5; } return s; }
+function ridge(x, y) { let s = 0, a = .5, f = 1; for (let i = 0; i < 6; i++) { const n = 1 - Math.abs(noise(x * f, y * f) * 2 - 1); s += a * n * n; f *= 2.03; a *= .5; } return s; }
+const smooth = THREE.MathUtils.smoothstep;
+
+function dotTexture() {
+  const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+  const g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+  g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.35, 'rgba(255,255,255,.6)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+  x.fillStyle = g; x.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c);
+}
+
+/* ---------- HERO: procedural mountains ---------- */
+const hero = document.getElementById('hero');
+const hr = new THREE.WebGLRenderer({ canvas: document.getElementById('heroCanvas'), antialias: true, powerPreference: 'high-performance' });
+hr.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+hr.toneMapping = THREE.ACESFilmicToneMapping; hr.toneMappingExposure = 1.05;
+const hs = new THREE.Scene();
+{
+  const c = document.createElement('canvas'); c.width = 2; c.height = 256; const x = c.getContext('2d');
+  const g = x.createLinearGradient(0, 0, 0, 256);
+  g.addColorStop(0, '#05070a'); g.addColorStop(.55, '#151719'); g.addColorStop(.78, '#3a2419'); g.addColorStop(1, '#1d1817');
+  x.fillStyle = g; x.fillRect(0, 0, 2, 256);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; hs.background = t;
+}
+hs.fog = new THREE.FogExp2(0x241b17, 0.0105);
+const hc = new THREE.PerspectiveCamera(52, 1, .1, 800);
+
+function heightAt(x, z) {
+  const r = ridge(x * .017 + 3.1, z * .017 + 7.7);
+  const valley = Math.min(1, Math.pow(Math.abs(x) / 42, 1.5));
+  const far = smooth(-z, 10, 150);
+  return r * r * 78 * (.12 + .88 * Math.max(valley, far)) - 4 + fbm(x * .08, z * .08) * 3;
+}
+const TENT = new THREE.Vector3(5, 0, -22); TENT.y = heightAt(TENT.x, TENT.z);
+{
+  const tg = new THREE.PlaneGeometry(420, 420, 230, 230); tg.rotateX(-Math.PI / 2); tg.translate(0, 0, -120);
+  const pos = tg.attributes.position, cols = new Float32Array(pos.count * 3);
+  const cLow = new THREE.Color(0x1b231e), cMid = new THREE.Color(0x3e3a34), cHigh = new THREE.Color(0xe6e2da), tmp = new THREE.Color();
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i), z = pos.getZ(i); let h = heightAt(x, z);
+    // flatten a little pad where the tent sits
+    const d = Math.hypot(x - TENT.x, z - TENT.z); if (d < 6) h = THREE.MathUtils.lerp(TENT.y, h, smooth(d, 3, 6));
+    pos.setY(i, h);
+    const t = THREE.MathUtils.clamp((h + 2) / 46 + (hash(x, z) - .5) * .12, 0, 1);
+    if (t < .4) tmp.copy(cLow).lerp(cMid, t / .4); else tmp.copy(cMid).lerp(cHigh, smooth(t, .48, .7));
+    cols.set([tmp.r, tmp.g, tmp.b], i * 3);
+  }
+  tg.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+  tg.computeVertexNormals();
+  hs.add(new THREE.Mesh(tg, new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: .95 })));
+}
+hs.add(new THREE.HemisphereLight(0x8fa6c0, 0x1a1410, .75));
+const sunL = new THREE.DirectionalLight(0xff9a55, 3.2); sunL.position.set(-60, 45, -220); hs.add(sunL);
+const fillL = new THREE.DirectionalLight(0x7f9cc0, .55); fillL.position.set(60, 70, 90); hs.add(fillL);
+// sun glow
+{
+  const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+  const g = x.createRadialGradient(128, 128, 0, 128, 128, 128);
+  g.addColorStop(0, 'rgba(255,220,170,1)'); g.addColorStop(.08, 'rgba(255,170,90,.95)'); g.addColorStop(.25, 'rgba(255,110,40,.35)'); g.addColorStop(1, 'rgba(255,90,20,0)');
+  x.fillStyle = g; x.fillRect(0, 0, 256, 256);
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), blending: THREE.AdditiveBlending, fog: false, depthWrite: false, transparent: true }));
+  sp.scale.set(260, 260, 1); sp.position.set(-55, 30, -420); hs.add(sp);
+}
+// trees
+{
+  const tg = new THREE.ConeGeometry(1, 3.4, 6); tg.translate(0, 1.7, 0);
+  const trees = new THREE.InstancedMesh(tg, new THREE.MeshStandardMaterial({ color: 0x18261d, flatShading: true, roughness: 1 }), 700);
+  const m = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), p = new THREE.Vector3(); let n = 0;
+  for (let k = 0; k < 6000 && n < 700; k++) {
+    const x = (Math.random() - .5) * 170, z = 35 - Math.random() * 210, h = heightAt(x, z);
+    if (h > 8 || Math.abs(x) < 3.5 || Math.hypot(x - TENT.x, z - TENT.z) < 7) continue;
+    const sc = .55 + Math.random() * 1.1; p.set(x, h - .3, z); s.set(sc, sc * (.9 + Math.random() * .6), sc);
+    m.compose(p, q, s); trees.setMatrixAt(n++, m);
+  }
+  trees.count = n; hs.add(trees);
+}
+// glowing tent
+const tentGroup = new THREE.Group();
+{
+  const shell = new THREE.Mesh(new THREE.SphereGeometry(1.6, 14, 7, 0, Math.PI * 2, 0, Math.PI / 2),
+    new THREE.MeshStandardMaterial({ color: 0xff6a1a, emissive: 0xff4a00, emissiveIntensity: .9, flatShading: true, roughness: .7 }));
+  shell.scale.set(1.3, 1, 1); tentGroup.add(shell);
+  const pl = new THREE.PointLight(0xff7a2a, 60, 45, 1.6); pl.position.y = 2; tentGroup.add(pl);
+  tentGroup.position.copy(TENT); tentGroup.rotation.y = -.5; hs.add(tentGroup);
+  tentGroup.userData.light = pl;
+}
+// snow
+const SN = 3200, snowPos = new Float32Array(SN * 3), snowSpd = new Float32Array(SN);
+for (let i = 0; i < SN; i++) { snowPos.set([(Math.random() - .5) * 140, Math.random() * 70 - 5, 40 - Math.random() * 160], i * 3); snowSpd[i] = .5 + Math.random(); }
+const snowGeo = new THREE.BufferGeometry(); snowGeo.setAttribute('position', new THREE.BufferAttribute(snowPos, 3));
+hs.add(new THREE.Points(snowGeo, new THREE.PointsMaterial({ size: .4, map: dotTexture(), transparent: true, opacity: .8, depthWrite: false })));
+
+let heroP = 0, heroVisible = true;
+const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+addEventListener('pointermove', e => { mouse.tx = e.clientX / innerWidth * 2 - 1; mouse.ty = e.clientY / innerHeight * 2 - 1; });
+ScrollTrigger.create({ trigger: hero, start: 'top top', end: 'bottom top', onUpdate: s => heroP = s.progress, onToggle: s => heroVisible = s.isActive });
+function resizeHero() { const w = hero.clientWidth, h = hero.clientHeight; hr.setSize(w, h, false); hc.aspect = w / h; hc.updateProjectionMatrix(); }
+resizeHero(); addEventListener('resize', resizeHero);
+
+/* ---------- VIEWER ---------- */
+const stage = document.getElementById('stage');
+const vr = new THREE.WebGLRenderer({ canvas: document.getElementById('viewerCanvas'), antialias: true, alpha: true });
+vr.setPixelRatio(Math.min(devicePixelRatio, 2));
+vr.toneMapping = THREE.ACESFilmicToneMapping;
+const vs = new THREE.Scene();
+vs.environment = new THREE.PMREMGenerator(vr).fromScene(new RoomEnvironment(), .04).texture;
+const vc = new THREE.PerspectiveCamera(32, 1, .1, 100); vc.position.set(5.2, 2.6, 7.4);
+const controls = new OrbitControls(vc, vr.domElement);
+controls.target.set(0, .1, 0); controls.enableZoom = false; controls.enablePan = false; controls.enableDamping = true;
+controls.autoRotate = true; controls.autoRotateSpeed = 1.6; controls.minPolarAngle = .5; controls.maxPolarAngle = 1.75;
+vs.add(new THREE.HemisphereLight(0xffffff, 0x332211, .6));
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(4, 6, 5); vs.add(key);
+const rim = new THREE.DirectionalLight(0xff6a1a, 3); rim.position.set(-5, 2, -5); vs.add(rim);
+// floor shadow + ring
+{
+  const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+  const g = x.createRadialGradient(64, 64, 0, 64, 64, 64); g.addColorStop(0, 'rgba(0,0,0,.7)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  x.fillStyle = g; x.fillRect(0, 0, 128, 128);
+  const sh = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+  sh.rotation.x = -Math.PI / 2; sh.position.y = -1.3; vs.add(sh);
+}
+const ring = new THREE.Group(); ring.position.y = -1.3; vs.add(ring);
+{
+  const m = new THREE.MeshBasicMaterial({ color: 0xff6a1a, transparent: true, opacity: .55 });
+  const r1 = new THREE.Mesh(new THREE.RingGeometry(2.45, 2.48, 96), m); r1.rotation.x = -Math.PI / 2; ring.add(r1);
+  for (let i = 0; i < 48; i++) {
+    const tick = new THREE.Mesh(new THREE.PlaneGeometry(.025, i % 4 ? .1 : .25), m);
+    const a = i / 48 * Math.PI * 2; tick.rotation.set(-Math.PI / 2, 0, -a); tick.position.set(Math.sin(a) * 2.65, 0, Math.cos(a) * 2.65); ring.add(tick);
+  }
+}
+// ripstop fabric bump texture
+const rip = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d');
+  x.fillStyle = '#808080'; x.fillRect(0, 0, 128, 128); x.strokeStyle = '#c8c8c8'; x.lineWidth = 2;
+  for (let i = 0; i <= 128; i += 16) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, 128); x.moveTo(0, i); x.lineTo(128, i); x.stroke(); }
+  for (let i = 0; i < 2500; i++) { x.fillStyle = `rgba(${Math.random() > .5 ? 255 : 0},${Math.random() > .5 ? 255 : 0},128,.06)`; x.fillRect(Math.random() * 128, Math.random() * 128, 2, 2); }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(3, 3); return t;
+})();
+const fabric = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: .85, bumpMap: rip, bumpScale: 1.2, ...o });
+const plain = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: .6, ...o });
+const metal = c => new THREE.MeshStandardMaterial({ color: c, metalness: .9, roughness: .3 });
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+const logoTex = (() => {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 96; const x = c.getContext('2d');
+  x.fillStyle = '#111'; x.fillRect(0, 0, 256, 96); x.strokeStyle = '#ff6a1a'; x.lineWidth = 7; x.lineCap = 'round';
+  x.beginPath(); x.moveTo(20, 18); x.quadraticCurveTo(26, 48, 54, 50); x.moveTo(92, 18); x.quadraticCurveTo(86, 48, 58, 50); x.stroke();
+  x.fillStyle = '#ff6a1a'; x.beginPath(); x.moveTo(44, 46); x.lineTo(68, 46); x.lineTo(62, 78); x.lineTo(50, 78); x.fill();
+  x.fillStyle = '#efe9dd'; x.font = 'bold 34px Oswald, Arial'; x.fillText('BUFFALO', 108, 62);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+})();
+
+function buildPack() {
+  const g = new THREE.Group();
+  const add = (geo, m, x = 0, y = 0, z = 0) => { const o = new THREE.Mesh(geo, m); o.position.set(x, y, z); g.add(o); return o; };
+  add(new RoundedBoxGeometry(1.7, 2.5, 1.1, 6, .34), fabric(0x2b2f2d), 0, -.05, 0);
+  add(new RoundedBoxGeometry(1.8, .58, 1.22, 6, .26), fabric(0xff6a1a), 0, 1.35, .02);
+  add(new RoundedBoxGeometry(1.28, 1.35, .42, 5, .17), fabric(0xff6a1a), 0, -.42, .6);
+  add(new THREE.BoxGeometry(1.0, .035, .04), metal(0x222222), 0, .1, .82);
+  add(new THREE.BoxGeometry(.08, .16, .05), metal(0xbbbbbb), .45, .1, .84);
+  add(new THREE.PlaneGeometry(.95, .36), new THREE.MeshStandardMaterial({ map: logoTex, roughness: .5 }), 0, 1.36, .645);
+  add(new THREE.BoxGeometry(1.78, .1, 1.16), plain(0x141414), 0, .62, 0);
+  add(new THREE.BoxGeometry(.22, .2, .06), metal(0x999999), .55, .62, .6);
+  add(new THREE.BoxGeometry(.22, .2, .06), metal(0x999999), -.55, .62, .6);
+  for (const sx of [-1, 1]) {
+    add(new THREE.CylinderGeometry(.31, .27, .95, 24), fabric(0x3c413e), sx * .87, -.68, .05);
+    add(new THREE.CylinderGeometry(.2, .2, .72, 24), new THREE.MeshStandardMaterial({ color: 0x4fc3c9, metalness: .7, roughness: .25 }), sx * .87, -.22, .05);
+    add(new THREE.CylinderGeometry(.13, .13, .14, 16), plain(0x111111), sx * .87, .2, .05);
+    const curve = new THREE.CatmullRomCurve3([V(sx * .42, 1.05, -.55), V(sx * .46, .95, -.86), V(sx * .5, .25, -.92), V(sx * .55, -.45, -.82), V(sx * .62, -.85, -.6)]);
+    g.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 40, .12, 10), fabric(0x1c1f1e)));
+  }
+  const hip = add(new THREE.TorusGeometry(.98, .14, 10, 48, Math.PI * 1.08), fabric(0x1c1f1e), 0, -1.05, .12);
+  hip.rotation.set(-Math.PI / 2, 0, -.04);
+  add(new THREE.TorusGeometry(.22, .05, 10, 24, Math.PI), plain(0x141414), 0, 1.63, -.2);
+  return { group: g, hotspots: [
+    { p: V(.55, 1.45, .64), n: V(0, 0, 1), t: '防水顶包', d: 'TPU 覆膜 · 暴雨不渗' },
+    { p: V(-.86, .5, .2), n: V(-1, 0, .2), t: '65L U 型主仓', d: '全开口 · 一眼到底' },
+    { p: V(.5, .3, -.98), n: V(0, 0, -1), t: 'AirFlow 背负', d: '3D 网眼 · 肩压减少 35%' },
+    { p: V(.95, -.25, .3), n: V(1, 0, .4), t: '快取侧袋', d: '不卸包单手取水壶' },
+  ] };
+}
+function buildTent() {
+  const g = new THREE.Group(), S = [1.3, 1.05, 1];
+  const shell = new THREE.Mesh(new THREE.SphereGeometry(1.5, 40, 16, 0, Math.PI * 2, 0, Math.PI / 2), fabric(0xff6a1a, { side: THREE.DoubleSide }));
+  shell.scale.set(...S); shell.position.y = -1.25; g.add(shell);
+  const door = new THREE.Mesh(new THREE.SphereGeometry(1.515, 20, 8, Math.PI / 2 - .5, 1.0, Math.PI / 2 - .85, .85), plain(0x1d1f1e, { side: THREE.DoubleSide }));
+  door.scale.set(...S); door.position.y = -1.25; g.add(door);
+  const fly = new THREE.Mesh(new THREE.SphereGeometry(1.52, 32, 6, 0, Math.PI * 2, 0, .55), fabric(0x2b2f2d, { side: THREE.DoubleSide }));
+  fly.scale.set(...S); fly.position.y = -1.22; g.add(fly);
+  const poles = new THREE.Group(); poles.scale.set(S[0] * 1.02, S[1] * 1.02, S[2] * 1.02); poles.position.y = -1.25; g.add(poles);
+  for (const a of [Math.PI / 4, -Math.PI / 4]) {
+    const p = new THREE.Mesh(new THREE.TorusGeometry(1.5, .03, 8, 64, Math.PI), metal(0xcfcfcf)); p.rotation.y = a; poles.add(p);
+  }
+  const floor = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, .04, 48), plain(0x1a1a1a)); floor.scale.set(S[0], 1, S[2]); floor.position.y = -1.27; g.add(floor);
+  const lineM = new THREE.LineBasicMaterial({ color: 0xffb347 });
+  for (let i = 0; i < 6; i++) {
+    const a = i / 6 * Math.PI * 2 + .3, top = V(Math.cos(a) * 1.25, -.45, Math.sin(a) * .95), bot = V(Math.cos(a) * 2.6, -1.28, Math.sin(a) * 2.1);
+    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([top, bot]), lineM));
+    const stake = new THREE.Mesh(new THREE.ConeGeometry(.03, .22, 6), metal(0xdddddd)); stake.position.copy(bot); stake.rotation.x = Math.PI; g.add(stake);
+  }
+  return { group: g, hotspots: [
+    { p: V(0, .35, 0), n: V(0, 1, 0), t: 'DAC 航空铝杆', d: '交叉穹顶 · 抗风 12 级' },
+    { p: V(0, -.75, 1.42), n: V(0, 0, 1), t: '双 D 形大门', d: '双向 YKK 拉链' },
+    { p: V(1.78, -.75, 0), n: V(1, 0, 0), t: '20D 硅涂外帐', d: '静水压 20000mm' },
+    { p: V(-1.6, -1.25, .9), n: V(-.6, .5, .6), t: '加厚 PU 底布', d: '6000mm · 防刺穿' },
+  ] };
+}
+const lampLight = new THREE.PointLight(0xffb347, 0, 8, 1.5);
+function buildLamp() {
+  const g = new THREE.Group();
+  const add = (geo, m, y = 0) => { const o = new THREE.Mesh(geo, m); o.position.y = y; g.add(o); return o; };
+  add(new THREE.CylinderGeometry(.58, .66, .38, 48), plain(0x232625, { roughness: .4 }), -1.08);
+  add(new THREE.CylinderGeometry(.6, .6, .06, 48), plain(0xff6a1a), -.88);
+  add(new THREE.CylinderGeometry(.47, .47, 1.15, 48, 1, true), new THREE.MeshStandardMaterial({ color: 0xfff1d6, transparent: true, opacity: .22, roughness: .05, side: THREE.DoubleSide }), -.29);
+  add(new THREE.CylinderGeometry(.16, .16, .9, 24), new THREE.MeshStandardMaterial({ color: 0xffd08a, emissive: 0xffa040, emissiveIntensity: 3 }), -.3);
+  for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2, b = add(new THREE.CylinderGeometry(.025, .025, 1.15, 8), metal(0x333333), -.29); b.position.x = Math.cos(a) * .5; b.position.z = Math.sin(a) * .5; }
+  add(new THREE.CylinderGeometry(.42, .6, .3, 48), plain(0x232625, { roughness: .4 }), .43);
+  add(new THREE.CylinderGeometry(.18, .26, .14, 32), plain(0xff6a1a), .64);
+  const h = add(new THREE.TorusGeometry(.4, .045, 10, 32, Math.PI), metal(0xaaaaaa), .66);
+  const btn = add(new THREE.CylinderGeometry(.09, .09, .05, 20), plain(0xff6a1a, { emissive: 0xff6a1a, emissiveIntensity: .6 }), -1.08); btn.rotation.x = Math.PI / 2; btn.position.z = .64;
+  lampLight.position.y = -.3; g.add(lampLight);
+  return { group: g, hotspots: [
+    { p: V(0, -.1, .48), n: V(0, 0, 1), t: '1000 流明 LED', d: '三档调光 · 暖光 2700K' },
+    { p: V(0, -1.08, .67), n: V(0, 0, 1), t: '72h 超长续航', d: '10400mAh · 可反向充电' },
+    { p: V(.5, .45, .2), n: V(1, .3, .3), t: 'IPX7 防水', d: '1 米水下 30 分钟' },
+  ] };
+}
+const PRODUCTS = {
+  pack: { build: buildPack, code: 'RHINO 65', name: '犀角 65L 重装背包', tag: '长线徒步 · 多日重装 · 男女款', desc: '钛合金背板配合 AirFlow 悬浮背负，把 25kg 的重量稳稳压在髋部。主仓 U 型全开口，前置弹力仓与快取侧袋让你在行进中也能单手取物。', specs: [['容量', '65 L', .9], ['自重', '1.38 kg', .78], ['承重', '25 kg', .86], ['面料', '500D Cordura', .8]], price: 1299, old: 1599 },
+  tent: { build: buildTent, code: 'DOME X4', name: '穹顶 X4 高山帐', tag: '四季高山 · 2-3 人 · 双层双门', desc: '交叉穹顶结构由 DAC 航空铝杆支撑，在 12 级强风中依旧稳如磐石。外帐 20000mm 静水压，3 分钟一人即可完成搭建。', specs: [['抗风', '12 级', .95], ['防水', '20000 mm', .96], ['重量', '2.6 kg', .7], ['搭建', '3 分钟', .88]], price: 2499, old: 2999 },
+  lamp: { build: buildLamp, code: 'BEACON', name: '烽火 营地灯', tag: '营地照明 · 应急充电宝 · 防水', desc: '1000 流明的暖光足以照亮整个营地；10400mAh 电池可连续工作 72 小时，还能在关键时刻给手机续命。', specs: [['亮度', '1000 lm', .9], ['续航', '72 h', .86], ['防水', 'IPX7', .82], ['重量', '380 g', .72]], price: 399, old: 499 },
+};
+for (const k in PRODUCTS) { const b = PRODUCTS[k].build(); PRODUCTS[k].group = b.group; PRODUCTS[k].hotspots = b.hotspots; b.group.visible = false; b.group.scale.setScalar(.001); vs.add(b.group); }
+
+const hsLayer = document.getElementById('hsLayer');
+let current = null, hsEls = [], switching = false;
+function showProduct(key) {
+  const next = PRODUCTS[key]; if (current === next) return;
+  const prev = current; current = next; switching = true;
+  hsEls.forEach(h => h.el.remove()); hsEls = [];
+  if (prev) gsap.to(prev.group.scale, { x: .001, y: .001, z: .001, duration: .45, ease: 'power3.in', onComplete: () => prev.group.visible = false });
+  next.group.visible = true; next.group.rotation.y = -Math.PI;
+  gsap.to(next.group.scale, { x: 1, y: 1, z: 1, duration: 1.1, delay: prev ? .4 : 0, ease: 'elastic.out(1,.65)' });
+  gsap.to(next.group.rotation, { y: 0, duration: 1.3, delay: prev ? .4 : 0, ease: 'expo.out', onComplete: () => { switching = false; } });
+  gsap.to(lampLight, { intensity: key === 'lamp' ? 12 : 0, duration: 1 });
+  hsEls = next.hotspots.map(h => {
+    const el = document.createElement('div'); el.className = 'hotspot hidden';
+    el.innerHTML = `<div class="dot"></div><div class="tip"><b>${h.t}</b><span>${h.d}</span></div>`;
+    el.addEventListener('click', () => el.classList.toggle('on'));
+    hsLayer.appendChild(el); return { ...h, el };
+  });
+  // info panel
+  const info = document.getElementById('pInfo');
+  gsap.timeline().to(info, { opacity: 0, y: 14, duration: prev ? .25 : 0 }).add(() => {
+    document.getElementById('pCode').textContent = next.code; document.getElementById('hudCode').textContent = next.code;
+    document.getElementById('pName').textContent = next.name; document.getElementById('pTag').textContent = next.tag;
+    document.getElementById('pDesc').textContent = next.desc;
+    document.getElementById('pSpecs').innerHTML = next.specs.map(s => `<div class="spec"><span class="k">${s[0]}</span><span class="bar"><i style="transform:scaleX(0)" data-w="${s[2]}"></i></span><span class="v">${s[1]}</span></div>`).join('');
+    document.getElementById('pPrice').innerHTML = `<small>¥</small>${next.price.toLocaleString()}<del>¥${next.old.toLocaleString()}</del>`;
+  }).to(info, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' })
+    .add(() => document.querySelectorAll('#pSpecs .bar i').forEach((b, i) => gsap.to(b, { scaleX: +b.dataset.w, duration: 1.2, delay: i * .08, ease: 'expo.out' })), '-=.3');
+}
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t)); showProduct(t.dataset.p);
+}));
+document.getElementById('addCart').addEventListener('click', () => toast(`已加入购物车：${current.name}`));
+showProduct('pack');
+
+let viewerVisible = false;
+ScrollTrigger.create({ trigger: stage, start: 'top bottom', end: 'bottom top', onToggle: s => viewerVisible = s.isActive });
+new ResizeObserver(() => { const w = stage.clientWidth, h = stage.clientHeight; vr.setSize(w, h, false); vc.aspect = w / h; vc.updateProjectionMatrix(); }).observe(stage);
+const tmpV = new THREE.Vector3(), tmpN = new THREE.Vector3(), toCam = new THREE.Vector3();
+function updateHotspots() {
+  if (!current) return; current.group.updateMatrixWorld();
+  const w = stage.clientWidth, h = stage.clientHeight;
+  for (const hp of hsEls) {
+    tmpV.copy(hp.p); current.group.localToWorld(tmpV);
+    tmpN.copy(hp.n).normalize().transformDirection(current.group.matrixWorld);
+    toCam.copy(vc.position).sub(tmpV).normalize();
+    const vis = !switching && tmpN.dot(toCam) > .1;
+    tmpV.project(vc);
+    hp.el.style.transform = `translate(${(tmpV.x * .5 + .5) * w}px,${(-tmpV.y * .5 + .5) * h}px)`;
+    hp.el.classList.toggle('hidden', !vis);
+  }
+}
+
+/* ---------- render loop ---------- */
+const clock = new THREE.Clock(); const hudDeg = document.getElementById('hudDeg');
+function loop() {
+  const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime;
+  if (heroVisible) {
+    mouse.x += (mouse.tx - mouse.x) * .04; mouse.y += (mouse.ty - mouse.y) * .04;
+    const p = heroP;
+    hc.position.set(Math.sin(t * .07) * 3 + mouse.x * 2.5, 9 + p * 12 - mouse.y * 1.2, 34 - p * 34 + Math.cos(t * .05) * 2);
+    hc.lookAt(mouse.x * 6, 9 - p * 2 - mouse.y * 2, -90);
+    for (let i = 0; i < SN; i++) {
+      const j = i * 3; snowPos[j + 1] -= snowSpd[i] * dt * 4.5; snowPos[j] += Math.sin(t * .8 + i) * dt * .9 - dt * 1.2;
+      if (snowPos[j + 1] < -6) { snowPos[j + 1] = 64; snowPos[j] = (Math.random() - .5) * 140; }
+    }
+    snowGeo.attributes.position.needsUpdate = true;
+    tentGroup.userData.light.intensity = 55 + Math.sin(t * 9) * 4 + Math.sin(t * 23) * 3;
+    hr.render(hs, hc);
+  }
+  if (viewerVisible) {
+    controls.update(); ring.rotation.y -= dt * .25;
+    if (current === PRODUCTS.lamp) lampLight.intensity = 11 + Math.sin(t * 6) * .6;
+    hudDeg.textContent = String(Math.round(((Math.atan2(vc.position.x, vc.position.z) * 180 / Math.PI) + 360) % 360)).padStart(3, '0');
+    vr.render(vs, vc); updateHotspots();
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* ---------- field test cards ---------- */
+const TESTS = [
+  { t: '冰川极寒测试', w: '贡嘎山 · 海拔 5200m', big: '-40℃', d: '睡袋与帐篷在极寒中连续驻扎 72 小时，结构与保暖零失效。', sky: ['#0d1826', '#5c7fa3'], m: ['#1b2a3b', '#2e4560', '#d8e2ec'], sun: '#e8f0ff', fx: 'snow' },
+  { t: '风暴抗风测试', w: '青海湖 · 风洞复测', big: '12级', d: '32.7 m/s 持续强风冲击 6 小时，帐篷形变小于 4%，无断杆无撕裂。', sky: ['#0b0e11', '#3a4652'], m: ['#14191d', '#212a31', '#33404a'], sun: null, fx: 'rain' },
+  { t: '沙漠高温测试', w: '腾格里沙漠', big: '58℃', d: '面料 UPF50+ 抗紫外线，高温暴晒 240 小时，拉链与涂层零黏连。', sky: ['#2b1206', '#e57a32'], m: ['#5a2810', '#8b4219', '#c7692c'], sun: '#ffd27a', fx: 'heat' },
+  { t: '高海拔负重测试', w: '珠峰北坡 · 大本营', big: '25kg', d: '满负荷连续徒步 120 公里，背负系统零开线、零变形。', sky: ['#060a12', '#2a1c2a'], m: ['#0f1622', '#1d2533', '#e9e6df'], sun: null, fx: 'stars' },
+];
+function rng(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+function mtnPath(r, base, amp, n) {
+  let d = `M0 700 L0 ${base}`; for (let i = 0; i <= n; i++) { const x = i / n * 520, y = base - amp * (i % 2 ? r() * .5 + .5 : r() * .45); d += ` L${x.toFixed(1)} ${y.toFixed(1)}`; }
+  return d + ' L520 700 Z';
+}
+const track = document.getElementById('hTrack');
+TESTS.forEach((c, i) => {
+  const r = rng(i * 999 + 7); let fx = '';
+  if (c.fx === 'snow') for (let k = 0; k < 70; k++) fx += `<circle cx="${r() * 560 - 20}" cy="${r() * -700}" r="${r() * 2 + .8}" fill="#fff" opacity="${.4 + r() * .5}" style="animation:fall ${4 + r() * 5}s linear ${-r() * 8}s infinite"/>`;
+  if (c.fx === 'rain') for (let k = 0; k < 90; k++) { const x = r() * 600, y = r() * -700; fx += `<line x1="${x}" y1="${y}" x2="${x - 8}" y2="${y + 26}" stroke="#9fb3c4" stroke-width="1" opacity=".45" style="animation:rain ${.6 + r() * .5}s linear ${-r()}s infinite"/>`; }
+  if (c.fx === 'stars') for (let k = 0; k < 120; k++) fx += `<circle cx="${r() * 520}" cy="${r() * 380}" r="${r() * 1.3 + .3}" fill="#fff" style="animation:twinkle ${2 + r() * 3}s ${-r() * 3}s infinite"/>`;
+  if (c.fx === 'heat') for (let k = 0; k < 4; k++) fx += `<rect x="0" y="${430 + k * 30}" width="520" height="2" fill="#ffd27a" opacity=".25" style="animation:shimmer ${2 + k * .5}s ease-in-out infinite"/>`;
+  const el = document.createElement('article'); el.className = 't-card';
+  el.innerHTML = `<svg class="bg" viewBox="0 0 520 700" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="sky${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.sky[0]}"/><stop offset="1" stop-color="${c.sky[1]}"/></linearGradient></defs>
+    <rect width="520" height="700" fill="url(#sky${i})"/>
+    ${c.sun ? `<circle data-depth="0.2" cx="360" cy="230" r="70" fill="${c.sun}" opacity=".85"/>` : ''}
+    <g>${c.fx === 'stars' ? fx : ''}</g>
+    <g data-depth="0.5"><path d="${mtnPath(r, 420, 220, 7)}" fill="${c.m[2]}"/></g>
+    <g data-depth="1"><path d="${mtnPath(r, 500, 160, 9)}" fill="${c.m[1]}"/></g>
+    <g data-depth="1.6"><path d="${mtnPath(r, 590, 110, 12)}" fill="${c.m[0]}"/></g>
+    <g>${c.fx !== 'stars' ? fx : ''}</g>
+  </svg>
+  <div class="idx">TEST ${String(i + 1).padStart(2, '0')}</div><div class="where">${c.w}</div>
+  <div class="info"><div class="big">${c.big}</div><h3>${c.t}</h3><p>${c.d}</p><span class="pass">✓ PASSED</span></div>`;
+  track.appendChild(el);
+});
+const spacer = document.createElement('div'); spacer.style.cssText = 'width:10vw;flex-shrink:0'; track.appendChild(spacer);
+
+/* ---------- scroll animations ---------- */
+const nav = document.getElementById('nav');
+ScrollTrigger.create({ start: 60, onUpdate: s => nav.classList.toggle('scrolled', s.scroll() > 60) });
+
+const hTween = gsap.to(track, {
+  x: () => -(track.scrollWidth - innerWidth), ease: 'none',
+  scrollTrigger: { trigger: '#tests', start: 'top top', end: () => '+=' + (track.scrollWidth - innerWidth), pin: true, scrub: 1, invalidateOnRefresh: true,
+    onUpdate: s => gsap.set('#hProg', { scaleX: s.progress }) },
+});
+document.querySelectorAll('.t-card').forEach(card => {
+  card.querySelectorAll('[data-depth]').forEach(l => gsap.fromTo(l, { x: () => +l.dataset.depth * 50 }, { x: () => -l.dataset.depth * 50, ease: 'none',
+    scrollTrigger: { trigger: card, containerAnimation: hTween, start: 'left right', end: 'right left', scrub: true } }));
+  gsap.from(card.querySelector('.info'), { y: 60, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: card, containerAnimation: hTween, start: 'left 80%' } });
+});
+
+gsap.utils.toArray('.sec-head').forEach(h => gsap.from(h.children, { y: 60, opacity: 0, duration: 1.1, stagger: .15, ease: 'power3.out', scrollTrigger: { trigger: h, start: 'top 82%' } }));
+gsap.from('.stat', { y: 70, opacity: 0, duration: 1, stagger: .12, ease: 'power3.out', scrollTrigger: { trigger: '.stats', start: 'top 80%' } });
+ScrollTrigger.create({ trigger: '.stats', start: 'top 75%', once: true, onEnter: () => {
+  document.querySelectorAll('[data-count]').forEach(el => { const o = { v: 0 }, dec = +(el.dataset.dec || 0);
+    gsap.to(o, { v: +el.dataset.count, duration: 2.2, ease: 'power3.out', onUpdate: () => el.textContent = dec ? o.v.toFixed(dec) : Math.round(o.v).toLocaleString() }); });
+  document.querySelectorAll('.meter i').forEach((m, i) => gsap.to(m, { scaleX: +m.dataset.w, duration: 1.8, delay: .2 + i * .12, ease: 'expo.out' }));
+} });
+gsap.from('.viewer .stage', { opacity: 0, scale: .92, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '.viewer', start: 'top 80%' } });
+gsap.from('.viewer .info', { opacity: 0, y: 60, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '.viewer', start: 'top 75%' } });
+
+// quote: per-character highlight scrub
+(function splitChars(node) {
+  [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) { const f = document.createDocumentFragment(); [...n.textContent].forEach(ch => { const s = document.createElement('span'); s.className = 'ch'; s.textContent = ch; f.appendChild(s); }); n.replaceWith(f); }
+    else splitChars(n);
+  });
+})(document.getElementById('quote'));
+gsap.to('#quote .ch', { opacity: 1, stagger: .05, ease: 'none', scrollTrigger: { trigger: '.quote', start: 'top 70%', end: 'bottom 70%', scrub: true } });
+gsap.from('.quote .mark', { scale: 0, rotate: -40, duration: 1.2, ease: 'back.out(2)', scrollTrigger: { trigger: '.quote', start: 'top 75%' } });
+
+gsap.from('.cta h2 span', { yPercent: 100, opacity: 0, duration: 1.2, stagger: .15, ease: 'expo.out', scrollTrigger: { trigger: '.cta', start: 'top 70%' } });
+gsap.from('.coin-wrap', { scale: .4, opacity: 0, rotate: -30, duration: 1.4, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.cta', start: 'top 70%' } });
+document.getElementById('code').addEventListener('click', () => { navigator.clipboard?.writeText('BUFFALO15').catch(() => {}); toast('优惠码 BUFFALO15 已复制'); });
+
+/* ---------- loader + intro ---------- */
+const pct = { v: 0 };
+lenis.stop();
+gsap.to(pct, { v: 100, duration: 1.6, ease: 'power2.inOut', onUpdate: () => { document.getElementById('pct').textContent = Math.round(pct.v); document.querySelector('#loader .bar i').style.width = pct.v + '%'; },
+  onComplete: () => {
+    gsap.timeline({ onComplete: () => { document.getElementById('loader').remove(); lenis.start(); ScrollTrigger.refresh(); } })
+      .to('#loader', { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'expo.inOut' })
+      .from('h1 .line > span', { yPercent: 110, duration: 1.3, stagger: .14, ease: 'expo.out' }, '-=.4')
+      .from('.eyebrow,.hero-sub,.hero-cta,.hero-meta,.scroll-hint,nav', { opacity: 0, y: 30, duration: 1, stagger: .08, ease: 'power3.out' }, '-=1');
+  } });
+</script>
+</body>
+</html>

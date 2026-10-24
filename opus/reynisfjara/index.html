@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Reynisfjara 黑沙滩</title>
+	<meta name="description" content="用 three.js 程序化生成的冰岛雷尼斯黑沙滩：玄武岩柱、黑色火山沙、海蚀柱与北大西洋的长涌浪。">
+	<style>
+		:root {
+			--ink: #e8ecef;
+			--ink-dim: rgba(232, 236, 239, 0.62);
+			--glass: rgba(14, 17, 20, 0.38);
+			--glass-hi: rgba(255, 255, 255, 0.14);
+			--line: rgba(255, 255, 255, 0.13);
+			--accent: #f2d9b3;
+			--font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+		}
+		* { box-sizing: border-box; }
+		html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0d0f; color: var(--ink); font-family: var(--font); }
+		#app, #app canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+		#app canvas { outline: none; touch-action: none; }
+
+		/* overlay */
+		.ui { position: fixed; z-index: 5; opacity: 0; transition: opacity 1.2s ease 0.4s; pointer-events: none; }
+		body.ready .ui { opacity: 1; }
+		body.clean .ui, body.clean .lil-gui.root { opacity: 0 !important; pointer-events: none !important; }
+		.ui > * { pointer-events: auto; }
+
+		#title { left: 28px; top: 24px; max-width: 460px; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35); pointer-events: none; }
+		#title h1 { margin: 0; font-weight: 600; font-size: 30px; letter-spacing: 0.08em; }
+		#title .latin { margin-top: 6px; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink-dim); }
+		#title p { margin: 12px 0 0; font-size: 13px; line-height: 1.7; color: var(--ink-dim); }
+
+		.bar { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(10px) saturate(1.2); -webkit-backdrop-filter: blur(10px) saturate(1.2); }
+		.bar button { font: inherit; font-size: 13px; color: var(--ink-dim); background: transparent; border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer; transition: background 0.25s, color 0.25s; white-space: nowrap; }
+		.bar button:hover { color: var(--ink); background: rgba(255, 255, 255, 0.07); }
+		.bar button.active { color: #111; background: var(--accent); }
+		.bar button kbd { font: inherit; font-size: 10px; opacity: 0.55; margin-left: 5px; }
+
+		#presets { left: 50%; bottom: 26px; transform: translateX(-50%); }
+		#moods { left: 28px; bottom: 26px; }
+		#side { right: 28px; bottom: 26px; display: flex; gap: 10px; align-items: center; }
+		#sound span::before { content: "♪ "; }
+		#sound.on { color: #111; background: var(--accent); }
+		#stats { font-size: 11px; color: var(--ink-dim); letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+		#hint { left: 50%; bottom: 76px; transform: translateX(-50%); font-size: 12px; color: var(--ink-dim); white-space: nowrap; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); pointer-events: none; }
+		#warn { right: 28px; top: 24px; margin-top: 0; max-width: 250px; font-size: 12px; line-height: 1.6; color: var(--ink-dim); padding: 10px 14px; border-radius: 12px; background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); pointer-events: none; }
+		#warn b { color: var(--accent); font-weight: 600; }
+
+		.lil-gui.root { top: 108px !important; right: 28px !important; --background-color: rgba(14, 17, 20, 0.72); --title-background-color: rgba(14, 17, 20, 0.85); --widget-color: rgba(255, 255, 255, 0.1); --focus-color: rgba(255, 255, 255, 0.18); --number-color: #f2d9b3; --font-family: var(--font); border-radius: 10px; overflow: hidden; backdrop-filter: blur(10px); opacity: 0; transition: opacity 1.2s ease 0.6s; }
+		body.ready .lil-gui.root { opacity: 1; }
+
+		/* loader */
+		#loader { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; background: radial-gradient(120% 90% at 50% 40%, #1a1e22 0%, #0b0d0f 70%); transition: opacity 1.4s ease; }
+		#loader.done { opacity: 0; pointer-events: none; }
+		#loader .box { width: min(380px, 80vw); text-align: center; }
+		#loader .ld-title { font-size: 26px; letter-spacing: 0.4em; font-weight: 300; text-transform: uppercase; padding-left: 0.4em; }
+		#loader .ld-sub { margin-top: 10px; font-size: 13px; color: var(--ink-dim); letter-spacing: 0.12em; }
+		#loader .ld-bar { margin: 28px auto 12px; height: 2px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; overflow: hidden; }
+		#loader .ld-bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.5s ease; }
+		#loader .ld-step { font-size: 12px; color: var(--ink-dim); min-height: 1.5em; }
+		#loader.error .ld-step { color: #ff9d8a; }
+		#loader noscript { color: #ff9d8a; }
+
+		@media (max-width: 860px) {
+			#title { left: 16px; top: 16px; max-width: 70vw; }
+			#title h1 { font-size: 22px; }
+			#title p, #warn, #hint { display: none; }
+			#presets { left: 16px; right: 16px; bottom: 64px; transform: none; overflow-x: auto; }
+			#moods { left: 16px; bottom: 16px; }
+			#side { right: 16px; bottom: 16px; }
+			#stats { display: none; }
+			.lil-gui.root { top: auto !important; bottom: 120px !important; right: 16px !important; }
+		}
+	</style>
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+				"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="app"></div>
+
+	<header id="title" class="ui">
+		<h1>雷尼斯黑沙滩</h1>
+		<div class="latin">Reynisfjara · Vík í Mýrdal · Ísland</div>
+		<p>冰岛南岸的黑色火山沙滩：雷尼斯山脚下阶梯状的六棱玄武岩柱（Gardar），海面上耸立的雷尼斯海蚀柱（Reynisdrangar），以及从北大西洋一路翻涌而来的长周期涌浪。</p>
+	</header>
+
+	<aside id="warn" class="ui"><b>疯狗浪</b> · 每隔十几道浪就会有一道格外大的浪冲得更远——这正是 Reynisfjara 最危险的地方。</aside>
+
+	<div id="hint" class="ui">拖动旋转 · 右键平移 · 滚轮缩放 · 数字键 1–5 切换机位 · M 切换天气 · H 隐藏界面 · 空格暂停</div>
+
+	<nav id="presets" class="ui bar">
+		<button data-preset="beach">海滩<kbd>1</kbd></button>
+		<button data-preset="columns">玄武岩柱<kbd>2</kbd></button>
+		<button data-preset="stacks">海蚀柱<kbd>3</kbd></button>
+		<button data-preset="shore">浪花<kbd>4</kbd></button>
+		<button data-preset="aerial">航拍<kbd>5</kbd></button>
+	</nav>
+
+	<nav id="moods" class="ui bar">
+		<button data-mood="overcast">阴天</button>
+		<button data-mood="golden">黄金时刻</button>
+		<button data-mood="storm">风暴</button>
+	</nav>
+
+	<div id="side" class="ui">
+		<div id="stats"></div>
+		<div class="bar"><button id="sound"><span>声音 关</span></button></div>
+	</div>
+
+	<div id="loader">
+		<div class="box">
+			<div class="ld-title">Reynisfjara</div>
+			<div class="ld-sub">正在程序化生成冰岛黑沙滩</div>
+			<div class="ld-bar"><i></i></div>
+			<div class="ld-step" id="ld-step">加载 three.js…</div>
+			<noscript>需要启用 JavaScript。</noscript>
+		</div>
+	</div>
+
+	<script type="module" src="./src/main.js"></script>
+</body>
+</html>

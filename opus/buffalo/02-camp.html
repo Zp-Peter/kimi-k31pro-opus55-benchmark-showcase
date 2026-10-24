@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>水牛露营 · 周末去野</title>
+<meta name="description" content="水牛牌露营系列：3 分钟搭好的周末。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f0e3;--card:#fffaf1;--ink:#23302a;--muted:#6b756f;--line:rgba(35,48,42,.12);--green:#2f6b4f;--leaf:#7cc46a;--terra:#e86a3f;--mustard:#f2b33d;--sky:#8fd0e6;--pink:#f4a6b0;--shadow:0 20px 50px -20px rgba(47,60,40,.35)}
+body.night{--bg:#0f1630;--card:#19223f;--ink:#f3ecdf;--muted:#9aa3c0;--line:rgba(255,255,255,.1);--green:#7cc46a;--shadow:0 20px 50px -20px rgba(0,0,0,.6)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:"Noto Sans SC",system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background-color .9s,color .9s}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.fun{font-family:"ZCOOL KuaiLe","Noto Sans SC",sans-serif;font-weight:400}
+.num{font-family:Fredoka,sans-serif}
+
+/* nav */
+nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:60;width:min(1180px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;padding:10px 12px 10px 20px;border-radius:999px;background:color-mix(in srgb,var(--card) 80%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow);border:1px solid var(--line);transition:background .9s}
+.logo{display:flex;align-items:center;gap:10px;font-size:22px}
+.logo .mark{width:40px;height:40px;border-radius:50%;background:var(--terra);display:grid;place-items:center;color:#fff;transform:rotate(-8deg)}
+.logo .mark svg{width:26px}
+.links{display:flex;gap:6px}
+.links a{padding:9px 16px;border-radius:999px;font-size:14px;font-weight:500;transition:background .3s}
+.links a:hover{background:var(--line)}
+.nav-r{display:flex;align-items:center;gap:10px}
+.toggle{position:relative;width:76px;height:40px;border-radius:999px;border:0;cursor:pointer;background:#bfe5f0;transition:background .6s;overflow:hidden}
+body.night .toggle{background:#2a2f5c}
+.toggle .knob{position:absolute;left:4px;top:4px;width:32px;height:32px;border-radius:50%;background:#ffd23f;box-shadow:0 0 0 4px rgba(255,210,63,.3);transition:transform .6s cubic-bezier(.5,1.6,.4,1),background .6s,box-shadow .6s}
+body.night .toggle .knob{transform:translateX(36px);background:#f1ecd8;box-shadow:inset -8px -3px 0 #d6cfb5}
+.toggle .st{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:0;transition:opacity .6s}
+body.night .toggle .st{opacity:1}
+.cart{position:relative;width:44px;height:44px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);display:grid;place-items:center;cursor:pointer;transition:background .9s}
+.cart svg{width:20px}
+.cart .badge{position:absolute;top:-4px;right:-4px;min-width:22px;height:22px;border-radius:11px;background:var(--terra);color:#fff;font:600 12px Fredoka;display:grid;place-items:center;padding:0 6px;transform:scale(0)}
+
+/* hero */
+#hero{position:relative;height:100vh;min-height:680px;overflow:hidden}
+.sky{position:absolute;inset:0;transition:opacity 1s}
+.sky-day{background:radial-gradient(circle at 75% 30%,#fff6d6 0,transparent 35%),linear-gradient(180deg,#bfe5f0 0%,#e8f1e6 60%,var(--bg) 100%)}
+.sky-night{opacity:0;background:radial-gradient(circle at 75% 30%,rgba(120,110,200,.35) 0,transparent 40%),linear-gradient(180deg,#060a1d 0%,#1a1c46 60%,#0f1630 100%)}
+body.night .sky-night{opacity:1}
+body.night .sky-day{opacity:0}
+#island{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+.hero-text{position:absolute;left:max(40px,calc(50% - 590px));top:70px;bottom:20px;z-index:3;max-width:660px;pointer-events:none;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.hero-text>*{pointer-events:auto}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 8px;border-radius:999px;background:var(--card);box-shadow:var(--shadow);font-size:13px;font-weight:500;transition:background .9s}
+.pill b{background:var(--terra);color:#fff;border-radius:999px;padding:3px 10px;font:600 12px Fredoka}
+.hero-text h1{font-size:clamp(52px,min(7.2vw,11vh),112px);line-height:1.08;margin-top:22px;letter-spacing:.02em}
+.hero-text h1 .w{position:relative;display:inline-block;color:var(--terra)}
+.hero-text h1 .w svg{position:absolute;left:-4%;bottom:-.12em;width:108%;height:.32em;overflow:visible}
+.hero-text h1 .w path{stroke:var(--mustard);stroke-width:8;fill:none;stroke-linecap:round}
+.h1wrap{position:relative}
+.h1wrap .ln{display:block;white-space:nowrap}
+.h1wrap h1+h1{position:absolute;left:0;top:0}
+.hero-text p{margin-top:22px;font-size:17px;line-height:1.85;color:var(--muted);max-width:460px}
+.cta-row{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 28px;border-radius:999px;border:0;cursor:pointer;font-size:15px;font-weight:700;transition:transform .3s cubic-bezier(.5,1.8,.5,1),box-shadow .3s}
+.btn:hover{transform:translateY(-3px) scale(1.03)}
+.btn:active{transform:scale(.96)}
+.btn-main{background:var(--terra);color:#fff;box-shadow:0 10px 0 -2px #b94b26,0 18px 30px -10px rgba(232,106,63,.6)}
+.btn-main:hover{box-shadow:0 13px 0 -2px #b94b26,0 24px 30px -10px rgba(232,106,63,.6)}
+.btn-soft{background:var(--card);color:var(--ink);box-shadow:var(--shadow);transition:background .9s,transform .3s cubic-bezier(.5,1.8,.5,1)}
+.hero-stats{display:flex;gap:28px;margin-top:40px}
+.hero-stats div{font-size:13px;color:var(--muted)}
+.hero-stats b{display:block;font:600 30px Fredoka;color:var(--ink)}
+.spin-badge{position:absolute;right:max(30px,calc(50% - 560px));bottom:9vh;z-index:3;width:130px;height:130px;pointer-events:none}
+.spin-badge svg{width:100%;height:100%;animation:rot 14s linear infinite}
+.spin-badge text{font:600 11.5px Fredoka;letter-spacing:2.6px;fill:var(--ink)}
+.spin-badge .c{position:absolute;inset:32px;border-radius:50%;background:var(--mustard);display:grid;place-items:center;font-size:30px;box-shadow:var(--shadow)}
+@keyframes rot{to{transform:rotate(360deg)}}
+.sticker{position:absolute;z-index:3;padding:10px 16px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;transition:background .9s;pointer-events:none}
+.sticker i{font-style:normal;font-size:20px}
+.st1{right:30%;top:22%;transform:rotate(-6deg)}
+.st2{right:8%;top:36%;transform:rotate(5deg)}
+.st3{right:24%;bottom:20%;transform:rotate(-3deg)}
+.hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:3;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.hint span{width:22px;height:34px;border:2px solid var(--muted);border-radius:12px;position:relative}
+.hint span::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;border-radius:2px;background:var(--muted);animation:wheel 1.6s infinite}
+@keyframes wheel{60%{transform:translateY(9px);opacity:0}100%{opacity:0}}
+
+/* sections */
+.sec{padding:120px max(24px,calc(50% - 590px));position:relative}
+.head{text-align:center;max-width:720px;margin:0 auto 64px}
+.tag{display:inline-block;padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--leaf) 25%,transparent);color:var(--green);font-size:13px;font-weight:700;margin-bottom:18px;transition:color .9s}
+.head h2{font-size:clamp(38px,5vw,64px);line-height:1.2}
+.head h2 em{font-style:normal;color:var(--terra)}
+.head p{margin-top:16px;color:var(--muted);line-height:1.85;font-size:16px}
+
+/* features */
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.feat{background:var(--card);border-radius:28px;padding:32px 26px;box-shadow:var(--shadow);transform-style:preserve-3d;transition:background .9s;position:relative;overflow:hidden}
+.feat .ic{width:68px;height:68px;border-radius:22px;display:grid;place-items:center;font-size:34px;transform:translateZ(40px);margin-bottom:22px}
+.feat h3{font-size:22px;transform:translateZ(30px)}
+.feat p{margin-top:10px;color:var(--muted);line-height:1.8;font-size:14px;transform:translateZ(20px)}
+.feat .big{position:absolute;right:-6px;bottom:-18px;font:700 92px Fredoka;opacity:.07;pointer-events:none}
+.feat .shine{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.45),transparent 45%);opacity:0;transition:opacity .3s}
+.feat:hover .shine{opacity:1}
+
+/* products */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.pcard{height:440px;perspective:1200px;cursor:pointer}
+.pcard .inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.3,1.35,.5,1)}
+.pcard.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:30px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;box-shadow:var(--shadow)}
+.front{background:var(--tint);padding:24px;display:flex;flex-direction:column}
+body.night .front{background:color-mix(in srgb,var(--tint) 18%,var(--card))}
+.front .top{display:flex;justify-content:space-between;align-items:center}
+.front .hot{background:var(--terra);color:#fff;font:600 12px Fredoka;padding:5px 12px;border-radius:999px;letter-spacing:.06em}
+.front .flipme{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.7);display:grid;place-items:center;font-size:18px;transition:transform .5s}
+.pcard:hover .flipme{transform:rotate(180deg)}
+.front .art{flex:1;display:grid;place-items:center}
+.front .art svg{width:82%;max-height:220px;animation:bob 4s ease-in-out infinite;filter:drop-shadow(0 18px 14px rgba(0,0,0,.12));transition:transform .5s cubic-bezier(.4,1.8,.5,1)}
+.pcard:hover .art svg{transform:scale(1.08) rotate(-3deg)}
+@keyframes bob{50%{translate:0 -10px}}
+.front h3{font-size:24px}
+.front .sub{font-size:13px;color:var(--muted);margin-top:4px}
+.front .row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px}
+.price{font:600 32px Fredoka}
+.price small{font-size:16px}
+.price del{font-size:14px;color:var(--muted);margin-left:6px;font-weight:400}
+.add{width:48px;height:48px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);font-size:24px;cursor:pointer;transition:transform .4s cubic-bezier(.5,2,.5,1),background .9s}
+.add:hover{transform:rotate(90deg) scale(1.1)}
+.back{transform:rotateY(180deg);background:var(--ink);color:var(--bg);padding:30px;display:flex;flex-direction:column;transition:background .9s}
+.back h3{font-size:24px}
+.back .sub{opacity:.6;font-size:13px;margin-top:4px}
+.back ul{list-style:none;margin-top:24px;display:grid;gap:14px;flex:1}
+.back li{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(127,127,127,.35);padding-bottom:10px;font-size:14px}
+.back li b{font-family:Fredoka;font-weight:600}
+.back .btn{justify-content:center;width:100%}
+
+/* trail */
+#trail{padding-top:110px;padding-bottom:0;height:100vh;min-height:640px;overflow:hidden}
+.trail-stage{position:absolute;left:0;right:0;top:250px;bottom:40px}
+.trail-stage svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.trail-stage .base{stroke:var(--line);stroke-width:14;fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.trail-stage .walk{stroke:var(--terra);stroke-width:6;fill:none;stroke-linecap:round;stroke-dasharray:2 14;vector-effect:non-scaling-stroke}
+.trail-stage .walk-mask{stroke:#fff;stroke-width:30;fill:none;vector-effect:non-scaling-stroke}
+.walker{position:absolute;left:0;top:0;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:var(--mustard);display:grid;place-items:center;font-size:28px;box-shadow:0 10px 24px -8px rgba(0,0,0,.4);z-index:3}
+.ms{position:absolute;width:200px;margin-left:-100px;z-index:2}
+.ms .pin{width:22px;height:22px;border-radius:50%;background:var(--card);border:5px solid var(--green);margin:0 auto;transition:background .9s}
+.ms .card{background:var(--card);border-radius:22px;padding:16px 18px;box-shadow:var(--shadow);text-align:center;transform:scale(0);transform-origin:50% 100%;transition:background .9s}
+.ms.down .card{transform-origin:50% 0}
+.ms .card .e{font-size:34px}
+.ms .card .t{font:600 22px Fredoka;color:var(--terra)}
+.ms .card h4{font-size:16px;margin-top:2px}
+.ms .card p{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.6}
+.ms.up{transform:translateY(-100%)}
+.ms.up .pin{margin-top:10px}
+.ms.down .pin{margin-bottom:10px}
+.ms.up .card{order:-1}
+.ms{display:flex;flex-direction:column}
+.trail-list{display:none}
+
+/* kit builder */
+.builder{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.panel{background:var(--card);border-radius:32px;padding:36px;box-shadow:var(--shadow);transition:background .9s}
+.panel h3{font-size:20px;margin-bottom:16px}
+.panel h3:not(:first-child){margin-top:34px}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.chip{border:2px solid var(--line);background:transparent;border-radius:22px;padding:18px 10px;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;transition:.3s}
+.chip i{display:block;font-style:normal;font-size:34px;margin-bottom:6px;transition:transform .4s cubic-bezier(.5,2,.5,1)}
+.chip:hover i{transform:scale(1.2) rotate(-8deg)}
+.chip.on{border-color:var(--terra);background:color-mix(in srgb,var(--terra) 12%,transparent)}
+.stepper{display:flex;align-items:center;gap:20px}
+.stepper button{width:52px;height:52px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--ink);font-size:24px;cursor:pointer;transition:.2s}
+.stepper button:hover{border-color:var(--terra);color:var(--terra)}
+.stepper .n{font:600 46px Fredoka;width:60px;text-align:center}
+.people{display:flex;gap:6px;font-size:28px;min-height:40px;flex-wrap:wrap}
+.people span{display:inline-block}
+.receipt{background:#fffdf7;color:#23302a;border-radius:24px 24px 0 0;padding:34px 34px 46px;position:relative;box-shadow:var(--shadow);font-size:14px;-webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/22px 100%;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/22px 100%}
+.receipt .rh{text-align:center;border-bottom:2px dashed #ddd2bd;padding-bottom:18px;margin-bottom:16px}
+.receipt .rh b{font-size:24px}
+.receipt .rh small{display:block;color:#8a8f86;margin-top:4px;font-family:Fredoka;letter-spacing:.1em}
+.ritems{display:grid;gap:12px;min-height:250px}
+.ritem{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center}
+.ritem .ico{width:44px;height:44px;border-radius:12px;background:#f3ead8;display:grid;place-items:center}
+.ritem .ico svg{width:36px}
+.ritem small{display:block;color:#8a8f86;font-size:12px}
+.ritem b{font-family:Fredoka;font-weight:600}
+.rtotal{border-top:2px dashed #ddd2bd;margin-top:18px;padding-top:16px;display:grid;gap:8px}
+.rtotal div{display:flex;justify-content:space-between}
+.rtotal .sum{font-size:16px;font-weight:700}
+.rtotal .sum b{font:600 34px Fredoka;color:#e86a3f}
+.receipt .btn{width:100%;justify-content:center;margin-top:20px}
+
+/* reviews */
+.reviews{overflow:hidden;padding:110px 0}
+.rrow{display:flex;gap:20px;width:max-content;margin-bottom:20px}
+.rv{width:340px;background:var(--card);border-radius:24px;padding:24px;box-shadow:var(--shadow);transition:background .9s,transform .4s;flex-shrink:0}
+.rv:hover{transform:rotate(-2deg) scale(1.03)}
+.rv .who{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.rv .av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:22px}
+.rv .who b{display:block;font-size:15px}
+.rv .who small{color:var(--muted);font-size:12px}
+.rv .stars{color:var(--mustard);letter-spacing:2px;margin-left:auto}
+.rv p{font-size:14px;line-height:1.8;color:var(--muted)}
+
+/* club */
+.club{margin:0 max(24px,calc(50% - 590px)) 100px;border-radius:44px;background:var(--green);color:#fff;padding:90px 60px;position:relative;overflow:hidden;text-align:center;transition:background .9s}
+body.night .club{background:#24305e}
+.club h2{font-size:clamp(36px,5vw,62px);line-height:1.2;position:relative}
+.club p{margin-top:16px;opacity:.85;position:relative}
+.club form{margin:34px auto 0;display:flex;gap:10px;max-width:520px;background:#fff;border-radius:999px;padding:8px;position:relative}
+.club input{flex:1;border:0;outline:0;font:inherit;font-size:15px;padding:0 18px;background:transparent;color:#23302a;min-width:0}
+.club .blob{position:absolute;border-radius:50%;opacity:.9}
+.club .b1{width:180px;height:180px;background:var(--mustard);left:-50px;top:-40px}
+.club .b2{width:120px;height:120px;background:var(--terra);right:8%;bottom:-40px}
+.club .b3{width:60px;height:60px;background:var(--sky);right:20%;top:30px}
+.club .b4{width:40px;height:40px;background:var(--pink);left:18%;bottom:40px}
+footer{padding:0 max(24px,calc(50% - 590px)) 40px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;flex-wrap:wrap;gap:16px}
+.fly{position:fixed;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;background:var(--terra);z-index:200;pointer-events:none;display:grid;place-items:center;color:#fff;font:600 14px Fredoka}
+.toast{position:fixed;left:50%;top:90px;transform:translate(-50%,-30px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:999px;font-size:14px;z-index:90;transition:.5s cubic-bezier(.4,1.8,.5,1);pointer-events:none}
+.toast.show{transform:translate(-50%,0);opacity:1}
+
+@media (max-width:1000px){
+  .links{display:none}
+  .features{grid-template-columns:1fr 1fr}
+  .grid{grid-template-columns:1fr 1fr}
+  .builder{grid-template-columns:1fr}
+  .sticker{display:none}
+}
+@media (max-width:760px){
+  #hero{min-height:760px}
+  .hero-text{left:20px;right:20px;top:110px;bottom:auto;justify-content:flex-start}
+  .hero-text h1{font-size:52px}
+  .hero-text p{font-size:15px}
+  .hero-stats{display:none}
+  .spin-badge{width:96px;height:96px;right:16px;bottom:16px}
+  .spin-badge .c{inset:24px;font-size:22px}
+  .features,.grid{grid-template-columns:1fr}
+  .chips{grid-template-columns:1fr 1fr 1fr}
+  .panel{padding:24px}
+  #trail{height:auto;padding-bottom:80px}
+  .trail-stage{display:none}
+  .trail-list{display:grid;gap:14px}
+  .trail-list .ms{position:static;width:auto;margin:0}
+  .trail-list .ms .pin{display:none}
+  .trail-list .ms .card{transform:none;display:grid;grid-template-columns:50px 1fr;text-align:left;gap:0 14px;align-items:center}
+  .trail-list .ms .card .e{grid-row:span 3}
+  .club{padding:70px 22px;border-radius:32px}
+  .club form{flex-direction:column;border-radius:24px}
+  .club input{padding:14px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo fun"><span class="mark"><svg viewBox="0 0 64 44" fill="none"><path d="M6 6c1 10 9 16 20 16M58 6c-1 10-9 16-20 16" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M21 19h22l-3.5 16c-1 5-14 5-15 0z" fill="currentColor"/></svg></span>水牛露营</a>
+  <div class="links"><a href="#why">为什么选我们</a><a href="#shop">爆款装备</a><a href="#trail">周末日程</a><a href="#kit">清单生成器</a></div>
+  <div class="nav-r">
+    <button class="toggle" id="toggle" aria-label="切换白天/夜晚">
+      <i class="st" style="left:14px;top:10px"></i><i class="st" style="left:24px;top:24px"></i><i class="st" style="left:10px;top:26px"></i>
+      <span class="knob"></span>
+    </button>
+    <button class="cart" id="cart" aria-label="购物车"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.5 11h11L21 7H7"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg><span class="badge" id="badge">0</span></button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="sky sky-day"></div><div class="sky sky-night"></div>
+  <canvas id="island"></canvas>
+  <div class="hero-text">
+    <span class="pill"><b>NEW</b>2026 春夏露营季 · 全场 85 折</span>
+    <div class="h1wrap">
+      <h1 class="fun" id="h1day"><span class="ln">周末，</span><span class="ln"><span class="w">去野一点<svg viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M2 12 Q 25 2 50 11 T 100 11 T 150 11 T 198 9"/></svg></span>。</span></h1>
+      <h1 class="fun" id="h1night" style="visibility:hidden"><span class="ln">今晚，</span><span class="ln"><span class="w">睡在星空下<svg viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M2 12 Q 25 2 50 11 T 100 11 T 150 11 T 198 9"/></svg></span>。</span></h1>
+    </div>
+    <p id="heroP">水牛牌露营装备，3 分钟搭好一个家。帐篷、桌椅、灯光、保温箱，一个后备箱就能装下整个周末。</p>
+    <div class="cta-row">
+      <a href="#shop" class="btn btn-main">挑选装备 →</a>
+      <a href="#kit" class="btn btn-soft">🎒 生成我的清单</a>
+    </div>
+    <div class="hero-stats">
+      <div><b class="cnt" data-n="320">0</b>万+ 露营家庭</div>
+      <div><b><span class="cnt" data-n="3">0</span> min</b>一人速搭</div>
+      <div><b><span class="cnt" data-n="98">0</span>%</b>好评率</div>
+    </div>
+  </div>
+  <div class="sticker st1"><i>⛺</i>3 分钟速开</div>
+  <div class="sticker st2"><i>☔</i>暴雨也不漏</div>
+  <div class="sticker st3"><i>🐂</i>一年只换不修</div>
+  <div class="spin-badge">
+    <svg viewBox="0 0 130 130"><defs><path id="circ" d="M65 65 m-52 0 a52 52 0 1 1 104 0 a52 52 0 1 1 -104 0"/></defs><text><textPath href="#circ">BUFFALO CAMP · 周末去野 · SINCE 1998 · </textPath></text></svg>
+    <div class="c">🔥</div>
+  </div>
+  <div class="hint"><span></span>拖动小岛 · 切换昼夜</div>
+</section>
+
+<section class="sec" id="why">
+  <div class="head"><span class="tag">WHY BUFFALO</span><h2 class="fun">露营这件事，<br>应该<em>很轻松</em>。</h2><p>我们把复杂的部分都藏进了设计里，你只需要负责好好享受。</p></div>
+  <div class="features">
+    <div class="feat tilt"><div class="shine"></div><div class="ic" style="background:#ffe1d3">⚡</div><h3>3 分钟速搭</h3><p>伞式自动骨架，拉开、按下、搞定。新手第一次也能独立完成。</p><span class="big">03</span></div>
+    <div class="feat tilt"><div class="shine"></div><div class="ic" style="background:#dff1d6">👨‍👩‍👧‍👦</div><h3>全家都够大</h3><p>2.1 米净高，4 人躺平还能放下行李箱，大人站着换衣服不弯腰。</p><span class="big">2.1</span></div>
+    <div class="feat tilt"><div class="shine"></div><div class="ic" style="background:#d9eff6">☔</div><h3>防晒又防雨</h3><p>UPF50+ 黑胶涂层，帐内降温 8℃；3000mm 防水，夏日雷雨不慌张。</p><span class="big">50+</span></div>
+    <div class="feat tilt"><div class="shine"></div><div class="ic" style="background:#fdeccc">🐂</div><h3>一年只换不修</h3><p>任何质量问题，一年内直接换新。我们对自己的做工有信心。</p><span class="big">365</span></div>
+  </div>
+</section>
+
+<section class="sec" id="shop" style="padding-top:40px">
+  <div class="head"><span class="tag">BEST SELLERS</span><h2 class="fun">本季<em>爆款</em>装备</h2><p>点击卡片翻面查看参数，按 ＋ 直接丢进购物车。</p></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="sec" id="trail">
+  <div class="head" style="margin-bottom:0"><span class="tag">A WEEKEND</span><h2 class="fun">一个周末，<em>大概是这样</em></h2><p>往下滑，跟着小水牛走完这段旅程。</p></div>
+  <div class="trail-stage" id="trailStage">
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+      <path id="trailPath" class="base" d="M40 300 C 200 300, 220 90, 380 110 S 560 320, 700 290 S 880 70, 1000 110 S 1150 260, 1170 220"/>
+      <mask id="tm"><path id="trailMask" class="walk-mask" d="M40 300 C 200 300, 220 90, 380 110 S 560 320, 700 290 S 880 70, 1000 110 S 1150 260, 1170 220"/></mask>
+      <path class="walk" mask="url(#tm)" d="M40 300 C 200 300, 220 90, 380 110 S 560 320, 700 290 S 880 70, 1000 110 S 1150 260, 1170 220"/>
+    </svg>
+    <div class="walker" id="walker">🐂</div>
+  </div>
+  <div class="trail-list" id="trailList"></div>
+</section>
+
+<section class="sec" id="kit">
+  <div class="head"><span class="tag">KIT BUILDER</span><h2 class="fun">选好场景，<br>清单<em>自动生成</em></h2><p>告诉我们你和谁去、去几个人，水牛帮你把装备配齐。</p></div>
+  <div class="builder">
+    <div class="panel">
+      <h3>① 这次和谁去？</h3>
+      <div class="chips" id="chips">
+        <button class="chip on" data-s="family"><i>👨‍👩‍👧</i>家庭露营</button>
+        <button class="chip" data-s="couple"><i>💑</i>情侣出游</button>
+        <button class="chip" data-s="solo"><i>🎒</i>一人独行</button>
+      </div>
+      <h3>② 一共几个人？</h3>
+      <div class="stepper"><button id="minus">−</button><span class="n" id="pn">4</span><button id="plus">＋</button><div class="people" id="people"></div></div>
+      <h3>③ 小贴士</h3>
+      <p id="tip" style="color:var(--muted);line-height:1.8;font-size:14px"></p>
+    </div>
+    <div class="receipt">
+      <div class="rh"><b class="fun">水牛露营清单</b><small id="rno">NO. 0001 · 2026.10.23</small></div>
+      <div class="ritems" id="ritems"></div>
+      <div class="rtotal">
+        <div><span>原价合计</span><span class="num" id="rsum">¥0</span></div>
+        <div><span>套装优惠 85 折</span><span class="num" id="rsave" style="color:#2f6b4f">-¥0</span></div>
+        <div class="sum"><span>到手价</span><b id="rfinal">¥0</b></div>
+      </div>
+      <button class="btn btn-main" id="addKit">一键加购整套 🛒</button>
+    </div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="head"><span class="tag">REVIEWS</span><h2 class="fun">320 万家庭<em>都说好</em></h2></div>
+  <div class="rrow" id="r1"></div>
+  <div class="rrow" id="r2"></div>
+</section>
+
+<section class="club">
+  <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span>
+  <h2 class="fun">加入水牛营地俱乐部 🔥</h2>
+  <p>每月一条私藏露营地 + 会员专属折扣，首单再减 50 元。</p>
+  <form id="club"><input type="email" placeholder="留下你的邮箱" required><button class="btn btn-main" type="submit">立即加入</button></form>
+</section>
+<footer><span class="fun" style="font-size:18px;color:var(--ink)">🐂 水牛露营 BUFFALO CAMP</span><span>© 2026 水牛牌户外 · 让每个周末都值得期待</span></footer>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+gsap.registerPlugin(ScrollTrigger);
+const lenis = new Lenis({ lerp: .1 });
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const id = a.getAttribute('href'); if (id.length < 2) return; e.preventDefault(); lenis.scrollTo(id, { offset: -90 }); }));
+const toast = m => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2000); };
+
+/* ================= 3D ISLAND ================= */
+const canvas = document.getElementById('island'), heroEl = document.getElementById('hero');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(32, 1, .1, 300);
+cam.position.set(0, 10, 25); cam.lookAt(0, .4, 0);
+
+const hemi = new THREE.HemisphereLight(0xdff2ff, 0xa07a55, 1.6); scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xfff0d0, 2.6); sun.position.set(7, 12, 6); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -8, right: 8, top: 8, bottom: -8, near: 1, far: 40 }); sun.shadow.bias = -.0008;
+scene.add(sun);
+
+const world = new THREE.Group(); scene.add(world);
+const island = new THREE.Group(); world.add(island);
+const M = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, flatShading: true, roughness: .9, ...o });
+const mesh = (geo, mat, x = 0, y = 0, z = 0, shadow = true) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = shadow; m.receiveShadow = true; return m; };
+function wobble(geo, amt) {
+  const p = geo.attributes.position;
+  for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i), z = p.getZ(i), a = Math.atan2(z, x);
+    const k = 1 + amt * (Math.sin(a * 3 + y * 1.7) * .55 + Math.sin(a * 7 - y * 2.3) * .3); p.setX(i, x * k); p.setZ(i, z * k); }
+  geo.computeVertexNormals(); return geo;
+}
+// ground
+island.add(mesh(wobble(new THREE.CylinderGeometry(5, 4.8, .9, 12, 1), .05), M(0x86c86a), 0, 0, 0, false));
+island.add(mesh(wobble(new THREE.CylinderGeometry(4.8, 4.3, .9, 12, 1), .06), M(0xa36f45), 0, -.9, 0, false));
+island.add(mesh(wobble(new THREE.ConeGeometry(4.3, 4.6, 12, 4), .1).rotateX(Math.PI), M(0x86705f), 0, -3.65, 0, false));
+const TOP = .45;
+const pond = mesh(new THREE.CircleGeometry(1, 12), M(0x6cc6e0, { roughness: .15, metalness: .1, flatShading: false }), -2.3, TOP + .01, 1.5, false);
+pond.rotation.x = -Math.PI / 2; pond.scale.set(1.5, 1, 1); island.add(pond);
+for (let i = 0; i < 9; i++) { const a = i / 9 * Math.PI * 2; island.add(mesh(new THREE.DodecahedronGeometry(.16 + Math.random() * .1), M(0x9aa09a), -2.3 + Math.cos(a) * 1.55, TOP + .05, 1.5 + Math.sin(a) * 1.05)); }
+// trees
+const greens = [0x3f8f55, 0x4fa35f, 0x2f7a4a];
+function pine(x, z, s) {
+  const g = new THREE.Group(); g.add(mesh(new THREE.CylinderGeometry(.12, .16, .7, 6), M(0x7a4f32), 0, .35, 0));
+  for (let k = 0; k < 3; k++) g.add(mesh(new THREE.ConeGeometry(.95 - k * .24, 1, 7), M(greens[k]), 0, .95 + k * .48, 0));
+  g.position.set(x, TOP, z); g.scale.setScalar(s); g.rotation.y = Math.random() * 6; island.add(g); return g;
+}
+function roundTree(x, z, s, c = 0x6bb85a) {
+  const g = new THREE.Group(); g.add(mesh(new THREE.CylinderGeometry(.1, .14, .9, 6), M(0x7a4f32), 0, .45, 0));
+  g.add(mesh(new THREE.IcosahedronGeometry(.75, 0), M(c), 0, 1.35, 0)); g.add(mesh(new THREE.IcosahedronGeometry(.45, 0), M(c), .45, 1.05, .2));
+  g.position.set(x, TOP, z); g.scale.setScalar(s); island.add(g); return g;
+}
+const trees = [pine(-3.3, -1.7, 1.1), pine(-2.5, -3.1, .9), pine(3.4, -1.9, 1.2), pine(2.4, -3.3, .85), pine(-4.1, .2, .8), roundTree(4, 1.2, .9, 0xf2b33d), roundTree(-.6, -3.7, 1), roundTree(1, -3.9, .75, 0xe86a3f), pine(4.1, -.4, .7)];
+// tent
+const tent = new THREE.Group();
+{
+  const sh = new THREE.Shape(); sh.moveTo(-1.35, 0); sh.lineTo(1.35, 0); sh.lineTo(0, 1.75); sh.closePath();
+  const tg = new THREE.ExtrudeGeometry(sh, { depth: 2.6, bevelEnabled: false }); tg.translate(0, 0, -1.3);
+  tent.add(mesh(tg, M(0xe86a3f)));
+  const d = new THREE.Shape(); d.moveTo(-.6, 0); d.lineTo(.6, 0); d.lineTo(0, 1.1); d.closePath();
+  tent.add(mesh(new THREE.ShapeGeometry(d), M(0x3a2620), 0, .01, 1.305, false));
+  const flap = new THREE.Shape(); flap.moveTo(0, 0); flap.lineTo(.6, 0); flap.lineTo(0, 1.1); flap.closePath();
+  const fm = mesh(new THREE.ShapeGeometry(flap), M(0xc9502a, { side: THREE.DoubleSide }), .02, .01, 1.31, false); fm.rotation.y = -1.1; tent.add(fm);
+  tent.add(mesh(new THREE.BoxGeometry(.06, .06, 2.7), M(0xf2b33d), 0, 1.76, 0));
+  const glow = new THREE.PointLight(0xffb060, 0, 4, 1.5); glow.position.set(0, .6, .6); tent.add(glow); tent.userData.glow = glow;
+  tent.position.set(.4, TOP, -.8); tent.rotation.y = -.35; island.add(tent);
+}
+// campfire
+const fire = new THREE.Group(); fire.position.set(1.9, TOP, 1.7); island.add(fire);
+for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2; fire.add(mesh(new THREE.DodecahedronGeometry(.15), M(0x8a8f8a), Math.cos(a) * .5, .07, Math.sin(a) * .5)); }
+for (const r of [.5, -.5, 1.6]) { const l = mesh(new THREE.CylinderGeometry(.07, .07, .75, 6), M(0x6b4129), 0, .12, 0); l.rotation.set(Math.PI / 2, 0, 0); l.rotation.y = r; fire.add(l); }
+const flames = [[0xffd23f, .22, .7], [0xff8a2a, .3, .55], [0xff5a1f, .36, .4]].map(([c, r, h], i) => {
+  const f = new THREE.Mesh(new THREE.ConeGeometry(r, h, 6), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: .92 })); f.position.y = .15 + h / 2; f.renderOrder = 3 - i; fire.add(f); return f;
+});
+const fireLight = new THREE.PointLight(0xff8a3d, 3, 9, 1.4); fireLight.position.y = .8; fire.add(fireLight);
+const EMB = 40, embPos = new Float32Array(EMB * 3), embLife = new Float32Array(EMB);
+for (let i = 0; i < EMB; i++) embLife[i] = Math.random();
+const embGeo = new THREE.BufferGeometry(); embGeo.setAttribute('position', new THREE.BufferAttribute(embPos, 3));
+const dotTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 32; const x = c.getContext('2d'); const g = x.createRadialGradient(16, 16, 0, 16, 16, 16); g.addColorStop(0, '#fff'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 32, 32); return new THREE.CanvasTexture(c); })();
+fire.add(new THREE.Points(embGeo, new THREE.PointsMaterial({ color: 0xffa040, size: .14, map: dotTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })));
+// moon chairs
+function chair(x, z, c) {
+  const g = new THREE.Group();
+  const seat = mesh(new THREE.SphereGeometry(.42, 12, 6, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), M(c, { side: THREE.DoubleSide }), 0, .62, 0);
+  seat.rotation.x = -.55; g.add(seat);
+  for (const [a, b] of [[.25, .25], [-.25, .25], [.25, -.25], [-.25, -.25]]) { const l = mesh(new THREE.CylinderGeometry(.025, .025, .7, 5), M(0x2b2420), a * .8, .3, b * .8); l.rotation.set(b * 1.1, 0, -a * 1.1); g.add(l); }
+  g.position.set(x, TOP, z); g.lookAt(fire.position.x, TOP, fire.position.z); island.add(g);
+}
+chair(3.1, .9, 0xf2b33d); chair(1.1, 2.9, 0x8fd0e6);
+// egg roll table + cooler
+{
+  const t = new THREE.Group(); t.add(mesh(new THREE.BoxGeometry(1.1, .07, .62), M(0xd39a5c), 0, .55, 0));
+  for (const s of [-1, 1]) { const l = mesh(new THREE.BoxGeometry(.05, .62, .05), M(0x2b2420), s * .4, .27, 0); l.rotation.z = s * .5; t.add(l); const l2 = l.clone(); l2.rotation.z = -s * .5; t.add(l2); }
+  t.add(mesh(new THREE.CylinderGeometry(.08, .07, .16, 10), M(0xffffff), .25, .66, .05));
+  t.add(mesh(new THREE.SphereGeometry(.16, 8, 6, 0, Math.PI * 2, 0, Math.PI / 2), M(0x4fa35f), -.25, .59, 0));
+  t.position.set(-.9, TOP, 1.6); t.rotation.y = .4; island.add(t);
+  const cool = new THREE.Group(); cool.add(mesh(new THREE.BoxGeometry(.7, .42, .45), M(0x5fb3cf), 0, .21, 0)); cool.add(mesh(new THREE.BoxGeometry(.74, .1, .49), M(0xf7f0e3), 0, .46, 0));
+  cool.position.set(-1.9, TOP, -.1); cool.rotation.y = .7; island.add(cool);
+}
+// string lights
+const bulbs = [];
+{
+  const A = new THREE.Vector3(-1.4, TOP + 1.9, .4), B = new THREE.Vector3(3.5, TOP + 1.9, -.4);
+  for (const p of [A, B]) island.add(mesh(new THREE.CylinderGeometry(.04, .05, 1.95, 6), M(0x6b4129), p.x, TOP + .97, p.z));
+  const mid = A.clone().lerp(B, .5); mid.y -= .65;
+  const curve = new THREE.QuadraticBezierCurve3(A, mid, B);
+  island.add(mesh(new THREE.TubeGeometry(curve, 30, .012, 4), M(0x2b2420), 0, 0, 0, false));
+  const cols = [0xffd23f, 0xff8a5c, 0x8fe3ff, 0xb6f28c, 0xffb3c6];
+  for (let i = 1; i < 12; i++) { const p = curve.getPoint(i / 12), c = cols[i % cols.length];
+    const b = new THREE.Mesh(new THREE.SphereGeometry(.07, 8, 6), new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: .2 }));
+    b.position.copy(p); b.position.y -= .08; island.add(b); bulbs.push(b); }
+}
+const stringLight = new THREE.PointLight(0xffd0a0, 0, 7, 1.5); stringLight.position.set(1, TOP + 1.4, 0); island.add(stringLight);
+// clouds
+const clouds = new THREE.Group(); world.add(clouds);
+for (let i = 0; i < 5; i++) {
+  const c = new THREE.Group(); const n = 3 + (i % 2);
+  for (let k = 0; k < n; k++) c.add(mesh(new THREE.IcosahedronGeometry(.5 + Math.random() * .45, 0), M(0xffffff, { roughness: 1 }), k * .65 - n * .3, Math.random() * .3, Math.random() * .4, false));
+  const a = i / 5 * Math.PI * 2; c.position.set(Math.cos(a) * (7 + i % 2), 3.5 + (i % 3) * .9, Math.sin(a) * (7 + i % 2)); c.userData.ph = i;
+  clouds.add(c);
+}
+// sun / moon
+const orb = new THREE.Mesh(new THREE.SphereGeometry(.9, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffd23f }));
+orb.position.set(-6.5, 6.5, -7); world.add(orb);
+const orbGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: 0xffe08a, transparent: true, opacity: .8, depthWrite: false, blending: THREE.AdditiveBlending }));
+orbGlow.scale.setScalar(5); orb.add(orbGlow);
+// stars + fireflies
+function pts(n, fn, size, color) { const a = new Float32Array(n * 3); for (let i = 0; i < n; i++) a.set(fn(i), i * 3); const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(a, 3));
+  return new THREE.Points(g, new THREE.PointsMaterial({ color, size, map: dotTex, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending })); }
+const stars = pts(700, () => { const u = Math.random() * Math.PI * 2, v = Math.random() * .9 + .05, r = 60; return [Math.cos(u) * Math.cos(v) * r, Math.sin(v) * r - 8, Math.sin(u) * Math.cos(v) * r - 20]; }, .7, 0xffffff);
+scene.add(stars);
+const ffBase = []; const flies = pts(46, i => { const a = Math.random() * 6.28, r = 1.8 + Math.random() * 3; const p = [Math.cos(a) * r, TOP + .5 + Math.random() * 1.8, Math.sin(a) * r]; ffBase.push(p); return p; }, .22, 0xd8ff6b);
+island.add(flies);
+
+// day/night
+const env = { k: 0 };
+const C = (a, b, k) => new THREE.Color(a).lerp(new THREE.Color(b), k);
+function applyEnv() {
+  const k = env.k;
+  hemi.color.copy(C(0xdff2ff, 0x5462a8, k)); hemi.groundColor.copy(C(0xa07a55, 0x241a2e, k)); hemi.intensity = 1.6 - k * 1.05;
+  sun.color.copy(C(0xfff0d0, 0x9fb4ff, k)); sun.intensity = 2.6 - k * 2.15;
+  fireLight.intensity = 3 + k * 22; stringLight.intensity = k * 8; tent.userData.glow.intensity = k * 6;
+  bulbs.forEach(b => b.material.emissiveIntensity = .2 + k * 3);
+  stars.material.opacity = k; flies.material.opacity = k;
+  orb.material.color.copy(C(0xffd23f, 0xf3efd9, k)); orbGlow.material.color.copy(C(0xffe08a, 0x9aa8ff, k)); orbGlow.material.opacity = .8 - k * .4;
+  clouds.children.forEach(c => c.children.forEach(m => m.material.color.copy(C(0xffffff, 0x6a6f9a, k))));
+}
+applyEnv();
+let night = false;
+const h1d = document.getElementById('h1day'), h1n = document.getElementById('h1night'), heroP = document.getElementById('heroP');
+const PTXT = ['水牛牌露营装备，3 分钟搭好一个家。帐篷、桌椅、灯光、保温箱，一个后备箱就能装下整个周末。', '篝火噼啪，灯串亮起。萤火营地灯 + 棉花糖睡袋，让夜晚比白天更好玩。'];
+function setNight(v) {
+  night = v; document.body.classList.toggle('night', v);
+  gsap.to(env, { k: v ? 1 : 0, duration: 1.6, ease: 'power2.inOut', onUpdate: applyEnv });
+  gsap.to(world.rotation, { y: world.rotation.y + Math.PI * (v ? 1 : -1) * .5, duration: 1.8, ease: 'power3.inOut' });
+  const [out, inn] = v ? [h1d, h1n] : [h1n, h1d];
+  gsap.to(out.children, { yPercent: -60, opacity: 0, duration: .45, stagger: .05, ease: 'power2.in', onComplete: () => { out.style.visibility = 'hidden'; } });
+  inn.style.visibility = 'visible';
+  gsap.fromTo(inn.children, { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .8, delay: .35, stagger: .08, ease: 'back.out(2)' });
+  gsap.fromTo(inn.querySelector('path'), { strokeDashoffset: 260 }, { strokeDashoffset: 0, duration: .9, delay: .7, ease: 'power2.out' });
+  gsap.to(heroP, { opacity: 0, duration: .3, onComplete: () => { heroP.textContent = PTXT[v ? 1 : 0]; gsap.to(heroP, { opacity: 1, duration: .5 }); } });
+}
+document.getElementById('toggle').addEventListener('click', () => setNight(!night));
+document.querySelectorAll('.w path').forEach(p => { p.style.strokeDasharray = 260; p.style.strokeDashoffset = 260; });
+
+// interaction: drag to spin + pointer parallax
+let drag = null, spinV = .12, spin = 0;
+const ptr = { x: 0, y: 0, tx: 0, ty: 0 };
+canvas.addEventListener('pointerdown', e => { drag = { x: e.clientX }; canvas.setPointerCapture(e.pointerId); canvas.style.cursor = 'grabbing'; });
+canvas.addEventListener('pointermove', e => { if (drag) { const dx = e.clientX - drag.x; drag.x = e.clientX; spin += dx * .01; spinV = THREE.MathUtils.clamp(dx * .4, -4, 4); } });
+const endDrag = () => { if (drag) { drag = null; canvas.style.cursor = ''; } };
+canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
+addEventListener('pointermove', e => { ptr.tx = e.clientX / innerWidth - .5; ptr.ty = e.clientY / innerHeight - .5; });
+
+let heroProg = 0, heroOn = true;
+ScrollTrigger.create({ trigger: heroEl, start: 'top top', end: 'bottom top', onUpdate: s => heroProg = s.progress, onToggle: s => heroOn = s.isActive });
+function resize() {
+  const w = heroEl.clientWidth, h = heroEl.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h;
+  if (w > 760) { cam.setViewOffset(w, h, -w * .2, 0, w, h); cam.fov = 32; world.scale.setScalar(1); }
+  else { cam.setViewOffset(w, h, 0, -h * .27, w, h); cam.fov = 44; world.scale.setScalar(.8); }
+  cam.updateProjectionMatrix();
+}
+resize(); addEventListener('resize', resize);
+
+const clock = new THREE.Clock();
+(function tick() {
+  requestAnimationFrame(tick);
+  if (!heroOn) return;
+  const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime;
+  if (!drag) { spinV += (.12 - spinV) * .02; spin += spinV * dt; }
+  ptr.x += (ptr.tx - ptr.x) * .05; ptr.y += (ptr.ty - ptr.y) * .05;
+  island.rotation.y = spin; island.position.y = Math.sin(t * .9) * .18;
+  world.rotation.x = ptr.y * .15 + heroProg * .35; world.rotation.z = -ptr.x * .08;
+  world.position.y = -heroProg * 3;
+  clouds.rotation.y = t * .04; clouds.children.forEach(c => c.position.y += Math.sin(t + c.userData.ph) * .002);
+  flames.forEach((f, i) => { const s = 1 + Math.sin(t * (14 + i * 3) + i) * .12; f.scale.set(s, 1 + Math.sin(t * (11 + i * 5)) * .18, s); f.rotation.y = t * (2 + i); });
+  fireLight.intensity = (3 + env.k * 22) * (1 + Math.sin(t * 20) * .08 + Math.sin(t * 7) * .06);
+  for (let i = 0; i < EMB; i++) { embLife[i] += dt * (.5 + (i % 5) * .1); if (embLife[i] > 1) embLife[i] = 0; const l = embLife[i];
+    embPos.set([Math.sin(i * 7.1 + l * 5) * .25 * l, .3 + l * 2.2, Math.cos(i * 3.3 + l * 4) * .25 * l], i * 3); }
+  embGeo.attributes.position.needsUpdate = true;
+  if (env.k > 0) { const fp = flies.geometry.attributes.position; for (let i = 0; i < ffBase.length; i++) { const b = ffBase[i]; fp.setXYZ(i, b[0] + Math.sin(t * .7 + i) * .4, b[1] + Math.sin(t * 1.3 + i * 2) * .25, b[2] + Math.cos(t * .6 + i) * .4); } fp.needsUpdate = true;
+    flies.material.size = .18 + Math.sin(t * 3) * .05; }
+  trees.forEach((tr, i) => tr.rotation.z = Math.sin(t * 1.2 + i) * .025);
+  renderer.render(scene, cam);
+})();
+
+/* ================= PRODUCTS ================= */
+const ART = {
+  tent: `<svg viewBox="0 0 200 160"><ellipse cx="100" cy="142" rx="82" ry="8" fill="#000" opacity=".08"/><path d="M100 24 174 138H26Z" fill="#e86a3f"/><path d="M100 24 128 138H72Z" fill="#c9502a"/><path d="M100 72 117 138H83Z" fill="#2b2420"/><path d="M100 24V10" stroke="#2b2420" stroke-width="4" stroke-linecap="round"/><path d="M102 9l16 5-16 5z" fill="#f2b33d"/><path d="M30 138 18 146M170 138 182 146" stroke="#2b2420" stroke-width="3" stroke-linecap="round"/></svg>`,
+  table: `<svg viewBox="0 0 200 160"><ellipse cx="100" cy="142" rx="70" ry="7" fill="#000" opacity=".08"/><rect x="28" y="60" width="144" height="16" rx="8" fill="#d39a5c"/><path d="M38 68h124" stroke="#b07b42" stroke-width="2" stroke-dasharray="10 5"/><path d="M58 76 142 138M142 76 58 138" stroke="#2b2420" stroke-width="6" stroke-linecap="round"/><rect x="62" y="36" width="24" height="24" rx="5" fill="#fff"/><path d="M86 42h6a6 6 0 0 1 0 12h-6" stroke="#fff" stroke-width="4" fill="none"/><path d="M110 60 A22 22 0 0 1 154 60Z" fill="#4fa35f"/><path d="M114 60 A18 18 0 0 1 150 60Z" fill="#ff6b6b"/></svg>`,
+  chair: `<svg viewBox="0 0 200 160"><ellipse cx="100" cy="144" rx="62" ry="7" fill="#000" opacity=".08"/><path d="M70 104 50 142M130 104 150 142M84 104 136 142M116 104 64 142" stroke="#2b2420" stroke-width="5" stroke-linecap="round"/><path d="M40 30 C 48 118, 152 118, 160 52 C 128 74, 82 70, 40 30Z" fill="#f2b33d"/><path d="M52 44 C 70 64, 110 70, 150 62" stroke="#d99a1e" stroke-width="3" fill="none"/></svg>`,
+  lamp: `<svg viewBox="0 0 200 160"><circle cx="100" cy="86" r="56" fill="#ffd36b" opacity=".35"/><ellipse cx="100" cy="146" rx="40" ry="6" fill="#000" opacity=".08"/><path d="M80 46 Q100 14 120 46" stroke="#2b2420" stroke-width="5" fill="none"/><rect x="72" y="42" width="56" height="12" rx="5" fill="#2f6b4f"/><rect x="76" y="54" width="48" height="70" rx="12" fill="#fff6dc" stroke="#2b2420" stroke-width="4"/><rect x="90" y="64" width="20" height="50" rx="8" fill="#ffc94a"/><rect x="68" y="122" width="64" height="16" rx="6" fill="#2f6b4f"/></svg>`,
+  cooler: `<svg viewBox="0 0 200 160"><ellipse cx="100" cy="144" rx="70" ry="7" fill="#000" opacity=".08"/><rect x="40" y="62" width="120" height="76" rx="14" fill="#5fb3cf"/><rect x="34" y="48" width="132" height="24" rx="9" fill="#f7f0e3" stroke="#2b2420" stroke-width="4"/><rect x="82" y="36" width="36" height="12" rx="5" fill="#2b2420"/><rect x="58" y="88" width="84" height="26" rx="7" fill="#fff" opacity=".55"/><text x="100" y="107" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="14" fill="#2f6b4f">32L</text></svg>`,
+  bag: `<svg viewBox="0 0 200 160"><ellipse cx="100" cy="146" rx="70" ry="7" fill="#000" opacity=".08"/><path d="M62 18h76a26 26 0 0 1 26 26v80a18 18 0 0 1-18 18H54a18 18 0 0 1-18-18V44a26 26 0 0 1 26-26z" fill="#f4a6b0"/><rect x="56" y="26" width="88" height="32" rx="16" fill="#fff"/><path d="M40 78h120M40 100h120M40 122h120" stroke="#e48896" stroke-width="3"/><path d="M156 60v76" stroke="#2b2420" stroke-width="3" stroke-dasharray="4 4"/></svg>`,
+  stool: `<svg viewBox="0 0 200 160"><rect x="56" y="50" width="88" height="16" rx="8" fill="#8fd0e6"/><path d="M70 66 130 138M130 66 70 138" stroke="#2b2420" stroke-width="6" stroke-linecap="round"/></svg>`,
+  stove: `<svg viewBox="0 0 200 160"><path d="M100 30c14 20 22 30 22 44a22 22 0 0 1-44 0c0-14 8-24 22-44z" fill="#ff8a2a"/><path d="M100 56c7 10 10 14 10 20a10 10 0 0 1-20 0c0-6 3-10 10-20z" fill="#ffd23f"/><rect x="60" y="100" width="80" height="34" rx="10" fill="#6b756f"/><path d="M60 100h80" stroke="#2b2420" stroke-width="5"/></svg>`,
+  mat: `<svg viewBox="0 0 200 160"><path d="M30 70 100 40 170 70 100 100Z" fill="#ffb3c6"/><path d="M65 55 135 85M100 40v60M135 55 65 85" stroke="#fff" stroke-width="5"/><path d="M30 70v14l70 30 70-30V70" fill="#e48896"/></svg>`,
+};
+const PRODUCTS = [
+  { id: 'tent', name: '云朵 4 人速开帐', sub: '3 分钟一人搭建 · 2.1m 净高', price: 1299, old: 1699, tint: '#ffe1d3', hot: '销量 No.1', specs: [['适用人数', '3-4 人'], ['搭建时间', '3 分钟'], ['防水指数', '3000 mm'], ['防晒', 'UPF50+'], ['收纳尺寸', '110×25 cm']] },
+  { id: 'table', name: '蛋卷桌 Pro', sub: '航空铝 · 承重 30kg', price: 299, old: 399, tint: '#f6e3c9', hot: '新品', specs: [['桌面尺寸', '120×60 cm'], ['重量', '3.8 kg'], ['承重', '30 kg'], ['材质', '6061 航空铝'], ['高度', '两档可调']] },
+  { id: 'chair', name: '月亮椅 · 黄油色', sub: '包裹式坐感 · 一秒展开', price: 159, old: 219, tint: '#fdeccc', hot: '网红款', specs: [['承重', '120 kg'], ['重量', '1.2 kg'], ['面料', '600D 牛津布'], ['展开', '1 秒'], ['配色', '5 色可选']] },
+  { id: 'lamp', name: '萤火 营地灯', sub: '暖光 2700K · 续航 48h', price: 129, old: 169, tint: '#fff2c7', hot: '', specs: [['亮度', '400 lm'], ['续航', '48 h'], ['防水', 'IPX5'], ['充电', 'USB-C'], ['挂钩', '360° 旋转']] },
+  { id: 'cooler', name: '冰川 32L 保温箱', sub: 'PU 发泡 · 72h 保冰', price: 399, old: 499, tint: '#d9eff6', hot: '', specs: [['容量', '32 L'], ['保冰', '72 h'], ['可装', '48 罐可乐'], ['重量', '5.2 kg'], ['特色', '可当凳子坐']] },
+  { id: 'bag', name: '棉花糖 睡袋', sub: '舒适温标 5℃ · 可拼接双人', price: 199, old: 269, tint: '#fde1e5', hot: '', specs: [['舒适温度', '5 ℃'], ['填充', '中空棉'], ['重量', '1.4 kg'], ['尺寸', '220×80 cm'], ['拼接', '支持双人']] },
+];
+const grid = document.getElementById('grid');
+grid.innerHTML = PRODUCTS.map(p => `
+  <div class="pcard" data-id="${p.id}"><div class="inner">
+    <div class="face front" style="--tint:${p.tint}">
+      <div class="top">${p.hot ? `<span class="hot">${p.hot}</span>` : '<span></span>'}<span class="flipme">↻</span></div>
+      <div class="art">${ART[p.id]}</div>
+      <h3 class="fun">${p.name}</h3><div class="sub">${p.sub}</div>
+      <div class="row"><div class="price"><small>¥</small>${p.price}<del>¥${p.old}</del></div><button class="add" data-add="${p.id}" aria-label="加入购物车">＋</button></div>
+    </div>
+    <div class="face back">
+      <h3 class="fun">${p.name}</h3><div class="sub">产品参数 · 点击翻回</div>
+      <ul>${p.specs.map(s => `<li><span>${s[0]}</span><b>${s[1]}</b></li>`).join('')}</ul>
+      <button class="btn btn-main" data-add="${p.id}">加入购物车 · ¥${p.price}</button>
+    </div>
+  </div></div>`).join('');
+grid.addEventListener('click', e => {
+  const add = e.target.closest('[data-add]');
+  if (add) { e.stopPropagation(); const p = PRODUCTS.find(x => x.id === add.dataset.add); addToCart(add, 1); toast(`已加入：${p.name}`); return; }
+  const card = e.target.closest('.pcard'); if (card) card.classList.toggle('flipped');
+});
+
+// cart fly
+let cartN = 0; const cartBtn = document.getElementById('cart'), badge = document.getElementById('badge');
+function addToCart(from, n) {
+  const r = from.getBoundingClientRect(), c = cartBtn.getBoundingClientRect();
+  const dot = document.createElement('div'); dot.className = 'fly'; dot.textContent = '+' + n; document.body.appendChild(dot);
+  gsap.set(dot, { x: r.left + r.width / 2, y: r.top + r.height / 2, scale: 0 });
+  gsap.to(dot, { scale: 1.3, duration: .2 });
+  gsap.to(dot, { x: c.left + c.width / 2, duration: .85, ease: 'power1.inOut' });
+  gsap.to(dot, { y: c.top + c.height / 2, duration: .85, ease: 'back.in(2.2)', onComplete: () => {
+    dot.remove(); cartN += n; badge.textContent = cartN;
+    gsap.fromTo(badge, { scale: 1.8 }, { scale: 1, duration: .6, ease: 'elastic.out(1,.4)' });
+    gsap.fromTo(cartBtn, { rotate: -18 }, { rotate: 0, duration: .7, ease: 'elastic.out(1,.3)' });
+  } });
+}
+
+// tilt
+document.querySelectorAll('.tilt, .pcard').forEach(el => {
+  const q = { rx: gsap.quickTo(el, 'rotationX', { duration: .5, ease: 'power3' }), ry: gsap.quickTo(el, 'rotationY', { duration: .5, ease: 'power3' }) };
+  gsap.set(el, { transformPerspective: 900 });
+  el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    q.rx((.5 - y) * 14); q.ry((x - .5) * 16); el.style.setProperty('--mx', x * 100 + '%'); el.style.setProperty('--my', y * 100 + '%'); });
+  el.addEventListener('pointerleave', () => { q.rx(0); q.ry(0); });
+});
+
+/* ================= TRAIL ================= */
+const MS = [
+  { e: '⛺', t: '14:00', h: '抵达营地', p: '云朵速开帐 3 分钟弹开，孩子们已经冲进去打滚了。', f: .1 },
+  { e: '🍉', t: '16:30', h: '蛋卷桌下午茶', p: '冰川保温箱里拿出冰镇西瓜，一口下去是夏天。', f: .37 },
+  { e: '🔥', t: '19:00', h: '篝火晚餐', p: '月亮椅围成一圈，烤棉花糖的焦香飘满营地。', f: .63 },
+  { e: '🌙', t: '22:00', h: '星空入睡', p: '关掉萤火灯，钻进棉花糖睡袋，数星星直到睡着。', f: .9 },
+];
+const stage = document.getElementById('trailStage'), path = document.getElementById('trailPath'), walker = document.getElementById('walker');
+const mask = document.getElementById('trailMask'), LEN = path.getTotalLength();
+mask.style.strokeDasharray = LEN; mask.style.strokeDashoffset = LEN;
+const msEls = MS.map((m, i) => {
+  const el = document.createElement('div'); const pt = path.getPointAtLength(LEN * m.f);
+  el.className = 'ms ' + (pt.y > 200 ? 'up' : 'down');
+  el.innerHTML = `<div class="pin"></div><div class="card"><div class="e">${m.e}</div><div class="t">${m.t}</div><h4>${m.h}</h4><p>${m.p}</p></div>`;
+  el.style.left = (pt.x / 1200 * 100) + '%'; el.style.top = (pt.y / 400 * 100) + '%';
+  stage.appendChild(el); el._shown = false; return el;
+});
+document.getElementById('trailList').innerHTML = MS.map(m => `<div class="ms"><div class="card"><div class="e">${m.e}</div><div class="t">${m.t}</div><h4>${m.h}</h4><p>${m.p}</p></div></div>`).join('');
+function placeWalker(prog) {
+  const pt = path.getPointAtLength(LEN * prog), w = stage.clientWidth, h = stage.clientHeight;
+  walker.style.transform = `translate(${pt.x / 1200 * w}px,${pt.y / 400 * h}px) rotate(${Math.sin(prog * 80) * 8}deg)`;
+  mask.style.strokeDashoffset = LEN * (1 - prog);
+  msEls.forEach((el, i) => { const on = prog >= MS[i].f - .02; if (on !== el._shown) { el._shown = on;
+    gsap.to(el.querySelector('.card'), { scale: on ? 1 : 0, duration: on ? .7 : .3, ease: on ? 'back.out(2.2)' : 'power2.in' });
+    gsap.to(el.querySelector('.pin'), { backgroundColor: on ? '#e86a3f' : '', scale: on ? 1.3 : 1, duration: .4 }); } });
+}
+placeWalker(0);
+ScrollTrigger.matchMedia({
+  '(min-width: 761px)': () => { ScrollTrigger.create({ trigger: '#trail', start: 'top top', end: '+=2200', pin: true, scrub: true, onUpdate: s => placeWalker(s.progress), onRefresh: s => placeWalker(s.progress) }); },
+  '(max-width: 760px)': () => { gsap.from('#trailList .ms', { x: -40, opacity: 0, stagger: .12, duration: .8, ease: 'back.out(2)', scrollTrigger: { trigger: '#trailList', start: 'top 80%' } }); },
+});
+
+/* ================= KIT BUILDER ================= */
+let scene_ = 'family', people = 4;
+const TIPS = { family: '带娃露营建议选择有草坪、有卫生间的营地，提前一天检查天气，记得给小朋友带一件抓绒外套。', couple: '情侣露营氛围感最重要：灯串 + 野餐垫 + 蛋卷桌，再带一瓶小酒，就是最好的约会。', solo: '一个人出发要轻装：选择熟悉的营地，告知亲友行程，炉具和头灯是独行侠的必备。' };
+function kit() {
+  const tent = people <= 2 ? ['tent', '云朵 2 人速开帐', 799] : people <= 4 ? ['tent', '云朵 4 人速开帐', 1299] : ['tent', '云朵 6 人屋脊帐', 1899];
+  const L = [tent, ['chair', `月亮椅 × ${people}`, 159 * people], ['bag', `棉花糖睡袋 × ${people}`, 199 * people]];
+  if (scene_ === 'family') L.push(['table', '蛋卷桌 Pro', 299], ['cooler', '冰川 32L 保温箱', 399], ['lamp', `萤火营地灯 × 2`, 258]);
+  if (scene_ === 'couple') L.push(['table', '蛋卷桌 Pro', 299], ['lamp', '萤火营地灯 × 2', 258], ['mat', '草莓野餐垫', 89]);
+  if (scene_ === 'solo') L.push(['stool', '轻量折叠凳', 69], ['stove', '小火苗 卡式炉', 189], ['lamp', '萤火营地灯', 129]);
+  return L;
+}
+const fmt = n => '¥' + Math.round(n).toLocaleString();
+const tot = { sum: 0, save: 0, fin: 0 };
+function renderKit() {
+  const L = kit(), sum = L.reduce((a, b) => a + b[2], 0);
+  document.getElementById('pn').textContent = people;
+  document.getElementById('people').innerHTML = Array.from({ length: people }, (_, i) => `<span>${['🧑', '👩', '👦', '👧', '👴', '👵'][i]}</span>`).join('');
+  gsap.from('#people span:last-child', { scale: 0, y: -20, duration: .5, ease: 'back.out(3)' });
+  document.getElementById('tip').textContent = TIPS[scene_];
+  const box = document.getElementById('ritems');
+  box.innerHTML = L.map(([id, n, p]) => `<div class="ritem"><span class="ico">${ART[id]}</span><span>${n}<small>${PRODUCTS.find(x => x.id === id)?.sub || '水牛露营 · 精选配件'}</small></span><b>${fmt(p)}</b></div>`).join('');
+  gsap.from('#ritems .ritem', { x: 40, opacity: 0, duration: .5, stagger: .06, ease: 'back.out(1.8)' });
+  gsap.to(tot, { sum, save: sum * .15, fin: sum * .85, duration: 1, ease: 'power3.out', onUpdate: () => {
+    document.getElementById('rsum').textContent = fmt(tot.sum); document.getElementById('rsave').textContent = '-' + fmt(tot.save); document.getElementById('rfinal').textContent = fmt(tot.fin);
+  } });
+}
+document.getElementById('chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return;
+  document.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === c)); scene_ = c.dataset.s;
+  people = scene_ === 'solo' ? 1 : scene_ === 'couple' ? 2 : Math.max(people, 3); renderKit(); });
+document.getElementById('minus').onclick = () => { if (people > 1) { people--; renderKit(); } };
+document.getElementById('plus').onclick = () => { if (people < 6) { people++; renderKit(); } };
+document.getElementById('addKit').onclick = e => { addToCart(e.currentTarget, kit().length); toast('整套装备已加入购物车 🎉'); };
+document.getElementById('rno').textContent = `NO. ${String(Math.floor(Math.random() * 9000) + 1000)} · ${new Date().toLocaleDateString('zh-CN')}`;
+renderKit();
+
+/* ================= REVIEWS ================= */
+const RV = [
+  ['🦌', '#ffe1d3', '小鹿妈妈', '杭州 · 家庭露营', '第一次带娃露营，老公一个人 3 分钟就把帐篷搭好了，隔壁营位都来问链接。'],
+  ['🐻', '#dff1d6', '熊大不睡觉', '成都 · 周末党', '月亮椅坐上去就不想起来，蛋卷桌收起来只有一根法棍那么大，后备箱终于不挤了。'],
+  ['🦊', '#fdeccc', 'Fox 阿狸', '上海 · 情侣出游', '晚上灯串一开氛围感拉满，女朋友拍照拍了一晚上，出片率 100%。'],
+  ['🐼', '#d9eff6', '滚滚', '北京 · 新手', '半夜突然下大雨，帐篷里一滴水都没进，第二天早上还被太阳晒醒了，很安心。'],
+  ['🐰', '#fde1e5', '兔子不吃草', '广州 · 独行', '保温箱真的能保冰两天，第二天下午的可乐还冒着冷气。'],
+  ['🦉', '#efe6ff', '夜猫子', '深圳 · 观星', '萤火灯的暖光不刺眼，关灯后满天星星，这是我今年最治愈的一个晚上。'],
+  ['🐿️', '#f6e3c9', '松鼠爸爸', '南京 · 家庭', '帐篷拉链坏了联系客服，三天就寄来了新的，一年换新是真的。'],
+  ['🐧', '#e0f0ff', '企鹅君', '青岛 · 海边露营', '海边风很大，帐篷稳稳的，配色还特别好看，朋友圈点赞爆了。'],
+];
+const rvHTML = arr => arr.map(r => `<div class="rv"><div class="who"><span class="av" style="background:${r[1]}">${r[0]}</span><div><b>${r[2]}</b><small>${r[3]}</small></div><span class="stars">★★★★★</span></div><p>${r[4]}</p></div>`).join('');
+const r1 = document.getElementById('r1'), r2 = document.getElementById('r2');
+r1.innerHTML = rvHTML(RV.slice(0, 4).concat(RV.slice(0, 4), RV.slice(0, 4))); r2.innerHTML = rvHTML(RV.slice(4).concat(RV.slice(4), RV.slice(4)));
+gsap.fromTo(r1, { x: 0 }, { x: () => -r1.scrollWidth / 3, ease: 'none', scrollTrigger: { trigger: '.reviews', start: 'top bottom', end: 'bottom top', scrub: 1 } });
+gsap.fromTo(r2, { x: () => -r2.scrollWidth / 3 }, { x: 0, ease: 'none', scrollTrigger: { trigger: '.reviews', start: 'top bottom', end: 'bottom top', scrub: 1 } });
+
+/* ================= MISC ANIMATIONS ================= */
+document.getElementById('club').addEventListener('submit', e => { e.preventDefault(); e.target.reset(); toast('欢迎加入水牛营地俱乐部！🔥'); });
+gsap.utils.toArray('.head').forEach(h => gsap.from(h.children, { y: 50, opacity: 0, duration: .9, stagger: .1, ease: 'back.out(1.6)', scrollTrigger: { trigger: h, start: 'top 85%' } }));
+gsap.from('.feat', { y: 100, opacity: 0, rotate: i => [-6, 4, -3, 6][i], duration: 1, stagger: .1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.features', start: 'top 85%' } });
+gsap.from('.pcard', { y: 120, opacity: 0, scale: .85, duration: 1, stagger: { each: .08, grid: 'auto', from: 'start' }, ease: 'back.out(1.4)', scrollTrigger: { trigger: '#grid', start: 'top 85%' } });
+gsap.from('.builder > *', { y: 80, opacity: 0, duration: 1, stagger: .15, ease: 'back.out(1.4)', scrollTrigger: { trigger: '.builder', start: 'top 80%' } });
+gsap.from('.club', { scale: .85, opacity: 0, duration: 1.1, ease: 'back.out(1.5)', scrollTrigger: { trigger: '.club', start: 'top 85%' } });
+gsap.utils.toArray('.club .blob').forEach((b, i) => gsap.to(b, { y: i % 2 ? 30 : -30, x: i % 2 ? -20 : 20, duration: 3 + i, repeat: -1, yoyo: true, ease: 'sine.inOut' }));
+gsap.utils.toArray('.sticker').forEach((s, i) => gsap.to(s, { y: -14, duration: 2 + i * .4, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: i * .3 }));
+gsap.to('.hero-text', { y: -120, opacity: 0, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+// intro
+const intro = gsap.timeline({ delay: .2 });
+intro.from('nav', { y: -100, opacity: 0, duration: 1, ease: 'back.out(1.6)' })
+  .from(world.scale, { x: .01, y: .01, z: .01, duration: 1.6, ease: 'elastic.out(1,.55)' }, 0)
+  .from(world.rotation, { y: -2.5, duration: 2, ease: 'expo.out' }, 0)
+  .from('.pill', { scale: 0, duration: .6, ease: 'back.out(3)' }, .3)
+  .from('#h1day > *', { yPercent: 80, opacity: 0, duration: .9, stagger: .1, ease: 'back.out(2)' }, .4)
+  .to('#h1day path', { strokeDashoffset: 0, duration: 1, ease: 'power2.out' }, 1)
+  .from('#heroP, .cta-row, .hero-stats', { y: 30, opacity: 0, duration: .8, stagger: .1, ease: 'power3.out' }, .7)
+  .from('.sticker, .spin-badge', { scale: 0, duration: .8, stagger: .12, ease: 'back.out(2.5)' }, 1)
+  .add(() => document.querySelectorAll('.cnt').forEach(el => { const o = { v: 0 }; gsap.to(o, { v: +el.dataset.n, duration: 1.8, ease: 'power2.out', onUpdate: () => el.textContent = Math.round(o.v) }); }), .9);
+</script>
+</body>
+</html>
